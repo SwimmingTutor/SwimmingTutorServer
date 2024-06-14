@@ -1,4 +1,4 @@
-package com.example.SwimmingTutor;
+package kr.sesacjava.swimtutor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
