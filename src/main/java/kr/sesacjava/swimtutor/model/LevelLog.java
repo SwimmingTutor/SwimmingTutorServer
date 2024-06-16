@@ -1,62 +1,79 @@
 package kr.sesacjava.swimtutor.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.Date;
 
 // 레벨테스트 정보 저장
 @Entity
-@Table(name = "level_log")
 public class LevelLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;                 // level_log_id (PK, Auto Increment)
-    private String login_id;        // oauth_lobin_id
-    private String platform;        // oauth_login_platform
-    private String training_name;
-    private int user_level;
+    private int levellogId;                 // level_log_id (PK, Auto Increment)
+    private String oauthLoginId;        // oauth_lobin_id
+    private String oauthLoginPlatform;        // oauth_login_platform
+    private String lcTrainingName;
+    private String userLevel;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated;
 
     // Getters and Setters
-    public int getId() {
-        return id;
+    public int getLevellogId() {
+        return levellogId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLevellogId(int levellog_id) {
+        this.levellogId = levellog_id;
     }
 
-    public String getLoginId() {
-        return login_id;
+    public String getOauthLoginId() {
+        return oauthLoginId;
     }
 
-    public void setLoginId(String login_id) {
-        this.login_id = login_id;
+    public void setOauthLoginId(String oauth_login_id) {
+        this.oauthLoginId = oauth_login_id;
     }
 
-    public String getPlatform() {
-        return platform;
+    public String getOauthLoginPlatform() {
+        return oauthLoginPlatform;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
+    public void setOauthLoginPlatform(String oauth_login_platform) {
+        this.oauthLoginPlatform = oauth_login_platform;
     }
 
-    public String getTrainingName() {
-        return training_name;
+    public String getLcTrainingName() {
+        return lcTrainingName;
     }
 
-    public void setTrainingName(String training_name) {
-        this.training_name = training_name;
+    public void setLcTrainingName(String lc_training_name) {
+        this.lcTrainingName = lc_training_name;
     }
 
-    public int getUserLevel() {
-        return user_level;
+    public String getUserLevel() {
+        return userLevel;
     }
 
-    public void setUserLevel(int user_level) {
-        this.user_level = user_level;
+    public void setUserLevel(String user_level) {
+        this.userLevel = user_level;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 }
