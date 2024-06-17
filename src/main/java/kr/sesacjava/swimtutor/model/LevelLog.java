@@ -1,8 +1,9 @@
 package kr.sesacjava.swimtutor.model;
 
-import jakarta.persistence.*;
-
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 // 레벨테스트 정보 저장
 @Entity
@@ -15,10 +16,6 @@ public class LevelLog {
     private String oauthLoginPlatform;        // oauth_login_platform
     private String lcTrainingName;
     private String userLevel;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updated;
 
     // Getters and Setters
     public int getLevellogId() {
@@ -59,21 +56,5 @@ public class LevelLog {
 
     public void setUserLevel(String user_level) {
         this.userLevel = user_level;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
     }
 }
