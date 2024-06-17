@@ -24,5 +24,7 @@ public class UserExerciseRecord extends BaseEntity {
     @Id
     private String category;
 
+    private LocalDateTime stopTime;
+
     private Double record;
 }
