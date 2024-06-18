@@ -1,12 +1,12 @@
 package kr.sesacjava.swimtutor.leveltest.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class LevelDTO {
 
     private int levellogId;
