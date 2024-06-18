@@ -1,4 +1,4 @@
-package kr.sesacjava.swimtutor.model;
+package kr.sesacjava.swimtutor.leveltest.entity;
 
 import jakarta.persistence.*;
 
