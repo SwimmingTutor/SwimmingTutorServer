@@ -1,4 +1,4 @@
-package kr.sesacjava.swimtutor.leveltest.entity;
+package kr.sesacjava.swimtutor.common.requestLog;
 
 import jakarta.persistence.*;
 

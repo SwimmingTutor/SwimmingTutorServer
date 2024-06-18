@@ -1,6 +1,6 @@
 package kr.sesacjava.swimtutor.leveltest.repository;
 
-import kr.sesacjava.swimtutor.leveltest.temp.LevelLog;
+import kr.sesacjava.swimtutor.leveltest.entity.LevelLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
