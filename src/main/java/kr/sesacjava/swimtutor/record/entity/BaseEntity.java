@@ -1,4 +1,4 @@
-package kr.sesacjava.swimtutor.domain;
+package kr.sesacjava.swimtutor.record.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

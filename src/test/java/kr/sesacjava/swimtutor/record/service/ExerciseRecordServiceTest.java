@@ -1,6 +1,6 @@
-package kr.sesacjava.swimtutor.service;
+package kr.sesacjava.swimtutor.record.service;
 
-import kr.sesacjava.swimtutor.dto.UserExerciseRecordDTO;
+import kr.sesacjava.swimtutor.record.dto.ExerciseRecordDTO;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,15 +11,15 @@ import java.time.LocalDateTime;
 
 @SpringBootTest
 @Log4j2
-class UserExerciseRecordServiceTest {
+class ExerciseRecordServiceTest {
     @Autowired
-    UserExerciseRecordService userExerciseRecordService;
+    ExerciseRecordService userExerciseRecordService;
 
     @Test
     public void registerTest() {
         log.info(userExerciseRecordService.getClass().getName());
         LocalDateTime now = LocalDateTime.now();
-        UserExerciseRecordDTO boardDTO = UserExerciseRecordDTO.builder()
+        ExerciseRecordDTO boardDTO = ExerciseRecordDTO.builder()
                 .startTime(now)
                 .stopTime(now.plusHours(1))
                 .category("speed")

@@ -1,4 +1,4 @@
-package kr.sesacjava.swimtutor.domain;
+package kr.sesacjava.swimtutor.record.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class UserExerciseRecordId implements Serializable {
+public class ExerciseRecordId implements Serializable {
     private LocalDateTime startTime;
     private String oauthLoginId;
     private String oauthLoginPlatform;

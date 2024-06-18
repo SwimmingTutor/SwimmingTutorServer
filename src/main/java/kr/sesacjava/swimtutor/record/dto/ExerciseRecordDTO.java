@@ -1,4 +1,4 @@
-package kr.sesacjava.swimtutor.dto;
+package kr.sesacjava.swimtutor.record.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserExerciseRecordDTO {
+public class ExerciseRecordDTO {
     private LocalDateTime startTime;
     private LocalDateTime stopTime;
     private String category;

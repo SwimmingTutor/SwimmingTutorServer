@@ -1,4 +1,4 @@
-package kr.sesacjava.swimtutor.domain;
+package kr.sesacjava.swimtutor.record.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@IdClass(UserExerciseRecordId.class)
-public class UserExerciseRecord extends BaseEntity {
+@IdClass(ExerciseRecordId.class)
+public class ExerciseRecord extends BaseEntity {
     @Id
     private LocalDateTime startTime;
     @Id
