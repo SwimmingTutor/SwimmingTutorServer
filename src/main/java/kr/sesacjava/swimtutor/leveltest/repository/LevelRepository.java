@@ -1,9 +1,9 @@
 package kr.sesacjava.swimtutor.leveltest.repository;
 
-import kr.sesacjava.swimtutor.leveltest.temp.LevelLog;
+import kr.sesacjava.swimtutor.leveltest.entity.Level;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LevelLogRepository extends JpaRepository<LevelLog, Long> {
+public interface LevelRepository extends JpaRepository<Level, Long> {
 }

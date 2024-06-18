@@ -1,40 +1,36 @@
 package kr.sesacjava.swimtutor.leveltest.entity;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import kr.sesacjava.swimtutor.leveltest.entity.id.LevelClassificationId;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "level_classification")
+@IdClass(LevelClassificationId.class)
+@Getter
+@ToString
 public class LevelClassification {
+    @Id
+    @Column(name = "lc_training_name")
+    private String lcTrainingName;
 
-    @EmbeddedId
-    private oauthAccount id;
+    @Id
+    @Column(name = "user_level")
+    private String userLevel;
 
-    // classification
-    private String lcTrainingName;  // 테스트 할 영법명
-    private String standardName;    // 레벨 판단 기준명
-    private String content;         // 기준별 내용
+    @Id
+    @Column(name = "standard_name")
+    private String standardName;
 
-    public String getLcTrainingName() {
-        return lcTrainingName;
-    }
+    @Column(name = "content")
+    private String content;
 
-    public void setLcTrainingName(String lcTrainingName) {
-        this.lcTrainingName = lcTrainingName;
-    }
+    @Column(name = "created")
+    private LocalDateTime created;
 
-    public String getStandardName() {
-        return standardName;
-    }
-
-    public void setStandardName(String standardName) {
-        this.standardName = standardName;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+    @Column(name = "updated")
+    private LocalDateTime updated;
 }

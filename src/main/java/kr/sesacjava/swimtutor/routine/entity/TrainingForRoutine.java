@@ -1,36 +1,40 @@
-package kr.sesacjava.swimtutor.leveltest.entity;
+package kr.sesacjava.swimtutor.routine.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "level_log")
+@Table(name = "training_for_routine")
+@IdClass(TrainingForRoutineId.class)
 @Getter
 @ToString
-public class LevelLog {
+@AllArgsConstructor
+@NoArgsConstructor
+public class TrainingForRoutine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "levelLog_id", nullable = false)
-    private Integer levelLogId;
+    @Column(name = "routine_id", nullable = false)
+    private Integer routineId;
 
+    @Id
     @Column(name = "oauth_login_id", nullable = false)
     private String oauthLoginId;
 
+    @Id
     @Column(name = "oauth_login_platform", nullable = false)
     private String oauthLoginPlatform;
 
-    @Column(name = "lc_training_name", nullable = false)
-    private String lcTrainingName;
+    @Column(name = "session", nullable = false)
+    private String session;
 
-    @Column(name = "user_level", nullable = false)
-    private String userLevel;
-
-    @Column(name = "standard_name", nullable = false)
-    private String standardName;
+    @Id
+    @Column(name = "training_id", nullable = false)
+    private String trainingId;
 
     @Column(name = "created", nullable = false, updatable = false, insertable = false, columnDefinition = "datetime default current_timestamp")
     private LocalDateTime created;

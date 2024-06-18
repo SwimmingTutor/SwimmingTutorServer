@@ -1,36 +1,30 @@
 package kr.sesacjava.swimtutor.leveltest.entity;
 
 import jakarta.persistence.*;
+import kr.sesacjava.swimtutor.leveltest.entity.id.LevelId;
 import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "level_log")
+@Table(name = "level")
+@IdClass(LevelId.class)
 @Getter
 @ToString
-public class LevelLog {
+public class Level {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "levelLog_id", nullable = false)
+    @Column(name = "levellog_id", nullable = false)
     private Integer levelLogId;
 
+    @Id
     @Column(name = "oauth_login_id", nullable = false)
     private String oauthLoginId;
 
+    @Id
     @Column(name = "oauth_login_platform", nullable = false)
     private String oauthLoginPlatform;
-
-    @Column(name = "lc_training_name", nullable = false)
-    private String lcTrainingName;
-
-    @Column(name = "user_level", nullable = false)
-    private String userLevel;
-
-    @Column(name = "standard_name", nullable = false)
-    private String standardName;
 
     @Column(name = "created", nullable = false, updatable = false, insertable = false, columnDefinition = "datetime default current_timestamp")
     private LocalDateTime created;
