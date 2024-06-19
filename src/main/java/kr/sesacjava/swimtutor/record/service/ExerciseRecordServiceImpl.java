@@ -27,8 +27,10 @@ public class ExerciseRecordServiceImpl implements ExerciseRecordService {
 
     @Override
     public List<ExerciseRecordDTO> list() {
+        List<ExerciseRecord> result = recordRepository.findAll();
 
-
-        return List.of();
+        return result.stream()
+                .map(this::entityToDto)
+                .toList();
     }
 }

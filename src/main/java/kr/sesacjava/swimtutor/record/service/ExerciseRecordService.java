@@ -14,7 +14,8 @@ public interface ExerciseRecordService {
 
     default ExerciseRecord dtoToEntity(ExerciseRecordDTO recordDTO) {
         // TODO: oauthLoginId, oauthLoginPlatform 수정 필요
-        ExerciseRecord record = ExerciseRecord.builder()
+
+        return ExerciseRecord.builder()
                 .oauthLoginId("abcd")
                 .oauthLoginPlatform("google")
                 .startTime(recordDTO.getStartTime())
@@ -22,7 +23,15 @@ public interface ExerciseRecordService {
                 .category(recordDTO.getCategory())
                 .record(recordDTO.getRecord())
                 .build();
+    }
 
-        return record;
+    default ExerciseRecordDTO entityToDto(ExerciseRecord exerciseRecord) {
+
+        return ExerciseRecordDTO.builder()
+                .startTime(exerciseRecord.getStartTime())
+                .stopTime(exerciseRecord.getStopTime())
+                .category(exerciseRecord.getCategory())
+                .record(exerciseRecord.getRecord())
+                .build();
     }
 }
