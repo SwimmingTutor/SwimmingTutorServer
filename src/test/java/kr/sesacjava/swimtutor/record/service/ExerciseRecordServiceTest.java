@@ -3,6 +3,9 @@ package kr.sesacjava.swimtutor.record.service;
 import jakarta.transaction.Transactional;
 import kr.sesacjava.swimtutor.common.exception.DuplicateKeyException;
 import kr.sesacjava.swimtutor.record.dto.ExerciseRecordDTO;
+import kr.sesacjava.swimtutor.record.entity.ExerciseRecord;
+import kr.sesacjava.swimtutor.record.entity.ExerciseRecordId;
+import kr.sesacjava.swimtutor.record.repository.ExerciseRecordRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ class ExerciseRecordServiceTest {
     @Autowired
     ExerciseRecordService recordService;
 
+    @Autowired
+    ExerciseRecordRepository recordRepository;
+
     @Test
     public void registerTest() {
         log.info(recordService.getClass().getName());
@@ -33,9 +39,17 @@ class ExerciseRecordServiceTest {
                 .record(10.1)
                 .build();
 
-        LocalDateTime startTime = recordService.register(exerciseRecordDTO);
+        recordService.register(exerciseRecordDTO);
 
-        assertThat(startTime).isEqualTo(now);
+        // TODO: oauthLoginPlatform, oauthLoginId 수정 필요
+        ExerciseRecord created = recordRepository.findById(ExerciseRecordId.builder()
+                .oauthLoginPlatform("google")
+                .oauthLoginId("abcd")
+                .category("speed")
+                .startTime(now).build()).orElseThrow();
+
+        assertThat(created.getRecord()).isEqualTo(10.1);
+        assertThat(created.getCategory()).isEqualTo("speed");
     }
 
     @Test
