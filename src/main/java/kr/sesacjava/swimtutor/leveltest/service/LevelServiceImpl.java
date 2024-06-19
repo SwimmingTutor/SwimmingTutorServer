@@ -1,13 +1,17 @@
 package kr.sesacjava.swimtutor.leveltest.service;
 
+import kr.sesacjava.swimtutor.common.exception.NotFoundException;
 import kr.sesacjava.swimtutor.common.requestLog.RequestLogRepository;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogDTO;
+import kr.sesacjava.swimtutor.leveltest.dto.LevelLogResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.entity.LevelLog;
 import kr.sesacjava.swimtutor.leveltest.repository.LevelClassificationRepository;
 import kr.sesacjava.swimtutor.leveltest.repository.LevelLogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 //@RequiredArgsConstructor
@@ -32,5 +36,24 @@ public class LevelServiceImpl implements LevelService {
         LevelLog levelLog = levelLogDtoToEntity(levelLogDTO);
 
         levelLogRepository.save(levelLog);
+    }
+
+    @Override
+    public List<LevelLogResponseDTO> getAllLevelLog() {
+        List<LevelLog> list = levelLogRepository.findAll();
+
+        List<LevelLogResponseDTO> dtoList = list.stream().map(this::levelLogEntityToDto).toList();
+        return dtoList;
+    }
+
+    @Override
+    public LevelLogResponseDTO getLevelLog(Long id) {
+        LevelLog levelLog = levelLogRepository.findById(id).orElse(null);
+
+        if (levelLog == null) {
+            throw new NotFoundException("데이터 없음");
+        }
+
+        return levelLogEntityToDto(levelLog);
     }
 }
