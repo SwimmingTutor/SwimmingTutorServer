@@ -2,8 +2,7 @@ package kr.sesacjava.swimtutor.leveltest.entity;
 
 import jakarta.persistence.*;
 import kr.sesacjava.swimtutor.leveltest.entity.id.LevelClassificationId;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,6 +12,9 @@ import java.time.LocalDateTime;
 @Table(name = "level_classification")
 @IdClass(LevelClassificationId.class)
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class LevelClassification {
     @Id
