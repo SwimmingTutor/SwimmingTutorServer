@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import kr.sesacjava.swimtutor.leveltest.entity.id.LevelClassificationId;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -28,9 +30,11 @@ public class LevelClassification {
     @Column(name = "content")
     private String content;
 
+    @CreatedDate
     @Column(name = "created")
     private LocalDateTime created;
 
+    @LastModifiedDate
     @Column(name = "updated")
     private LocalDateTime updated;
 }

@@ -3,6 +3,8 @@ package kr.sesacjava.swimtutor.leveltest.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -32,9 +34,11 @@ public class LevelLog {
     @Column(name = "standard_name", nullable = false)
     private String standardName;
 
+    @CreatedDate
     @Column(name = "created", nullable = false, updatable = false, insertable = false, columnDefinition = "datetime default current_timestamp")
     private LocalDateTime created;
 
+    @LastModifiedDate
     @Column(name = "updated", nullable = false, insertable = false, columnDefinition = "datetime default current_timestamp on update current_timestamp")
     private LocalDateTime updated;
 }
