@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,9 +18,7 @@ public class ExerciseRecordServiceImpl implements ExerciseRecordService {
     private final ExerciseRecordRepository recordRepository;
 
     @Override
-    public LocalDateTime register(ExerciseRecordDTO exerciseRecordDTO) {
-        ExerciseRecord record = dtoToEntity(exerciseRecordDTO);
-
+    public void register(ExerciseRecordDTO exerciseRecordDTO) {
         // TODO: oauthLoginId, oauthLoginPlatform 수정 필요
         boolean exists = recordRepository.existsById(
                 ExerciseRecordId.builder()
@@ -35,9 +32,9 @@ public class ExerciseRecordServiceImpl implements ExerciseRecordService {
             throw new DuplicateKeyException("아이디 중복");
         }
 
-        LocalDateTime startTime = recordRepository.save(record).getStartTime();
+        ExerciseRecord record = dtoToEntity(exerciseRecordDTO);
 
-        return startTime;
+        recordRepository.save(record);
     }
 
     @Override

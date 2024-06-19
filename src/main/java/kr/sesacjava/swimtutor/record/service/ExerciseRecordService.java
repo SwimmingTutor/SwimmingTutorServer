@@ -3,12 +3,11 @@ package kr.sesacjava.swimtutor.record.service;
 import kr.sesacjava.swimtutor.record.dto.ExerciseRecordDTO;
 import kr.sesacjava.swimtutor.record.entity.ExerciseRecord;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
 public interface ExerciseRecordService {
-    public LocalDateTime register(ExerciseRecordDTO userExerciseRecordDTO);
+    public void register(ExerciseRecordDTO userExerciseRecordDTO);
 
     public List<ExerciseRecordDTO> list();
 
