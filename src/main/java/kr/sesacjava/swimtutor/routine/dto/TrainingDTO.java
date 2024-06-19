@@ -2,8 +2,6 @@ package kr.sesacjava.swimtutor.routine.dto;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @ToString
@@ -11,12 +9,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TrainingDTO {
 
-    private String trainingId;
+    //    private String trainingId;
     private String trainingName;
-    private String userLevel;
-    private String trainingLevel;
+    //    private String userLevel;
+//    private String trainingLevel;
     private int distance;
     private int sets;
-    private LocalDateTime created;
-    private LocalDateTime updated;
+//    private LocalDateTime created;
+//    private LocalDateTime updated;
 }

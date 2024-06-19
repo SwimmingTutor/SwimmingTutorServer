@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class RoutineDTO {
 
-    private int routineId;
-    private String oauthLoginId;
-    private String oauthLoginPlatform;
+    //    private int routineId;
+//    private String oauthLoginId;
+//    private String oauthLoginPlatform;
     private String routineName;
     private int unitLength;
     private int targetDistance;
