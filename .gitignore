@@ -1,3 +1,9 @@
+*.properties
+!application.properties
+!**/src/main/**/common/
+!**/src/main/**/routine/
+!**/src/main/**/users/
+
 HELP.md
 .gradle
 
