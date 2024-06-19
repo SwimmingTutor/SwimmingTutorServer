@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -19,7 +21,7 @@ class LevelLogRepositoryTest {
     @Test
     // 데이터 insert 확인 하려면 commit 주석 해제
 //    @Commit
-    public void registerTest() {
+    public void saveTest() {
         LevelLog levelLog = LevelLog.builder()
                 .userLevel("중급")
                 .lcTrainingName("자유형")
@@ -35,4 +37,9 @@ class LevelLogRepositoryTest {
         assertThat(created.getLcTrainingName()).isEqualTo("자유형");
     }
 
+    @Test
+    public void findAllTest() {
+        List<LevelLog> list = levelLogRepository.findAll();
+        list.forEach(i -> log.info("lcTrainingName={}, userLevel={}", i.getLcTrainingName(), i.getUserLevel()));
+    }
 }
