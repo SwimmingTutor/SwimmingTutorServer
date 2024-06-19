@@ -23,7 +23,7 @@ public class Training {
     private String trainingId;
 
     @Column(name = "training_name")
-    private String trainingName;
+    private String strokeName;
 
     @Column(name = "user_level")
     private String userLevel;
@@ -42,4 +42,36 @@ public class Training {
 
     @Column(name = "updated")
     private LocalDateTime updated;
+
+    public String getTrainingId() {
+        return trainingId;
+    }
+
+    public String getStrokeName() {
+        return strokeName;
+    }
+
+    public String getUserLevel() {
+        return userLevel;
+    }
+
+    public String getTrainingLevel() {
+        return trainingLevel;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public int getSets() {
+        return sets;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
 }

@@ -1,6 +1,7 @@
 package kr.sesacjava.swimtutor.routine.entity;
 
 import jakarta.persistence.*;
+import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,4 +47,40 @@ public class Routine {
 
     @Column(name = "updated")
     private LocalDateTime updated;
+
+    public Integer getRoutineId() {
+        return routineId;
+    }
+
+    public String getOauthLoginId() {
+        return oauthLoginId;
+    }
+
+    public String getOauthLoginPlatform() {
+        return oauthLoginPlatform;
+    }
+
+    public String getRoutineName() {
+        return routineName;
+    }
+
+    public int getUnitLength() {
+        return unitLength;
+    }
+
+    public int getTargetDistance() {
+        return targetDistance;
+    }
+
+    public String getSelStrokes() {
+        return selStrokes;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
 }
