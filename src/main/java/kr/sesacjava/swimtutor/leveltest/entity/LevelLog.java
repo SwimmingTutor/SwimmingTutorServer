@@ -1,8 +1,7 @@
 package kr.sesacjava.swimtutor.leveltest.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,6 +11,9 @@ import java.time.LocalDateTime;
 @Table(name = "level_log")
 @Getter
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LevelLog {
 
     @Id
@@ -30,9 +32,6 @@ public class LevelLog {
 
     @Column(name = "user_level", nullable = false)
     private String userLevel;
-
-    @Column(name = "standard_name", nullable = false)
-    private String standardName;
 
     @CreatedDate
     @Column(name = "created", nullable = false, updatable = false, insertable = false, columnDefinition = "datetime default current_timestamp")
