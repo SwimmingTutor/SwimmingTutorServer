@@ -40,4 +40,9 @@ public class LevelLog {
     @LastModifiedDate
     @Column(name = "updated", nullable = false, insertable = false, columnDefinition = "datetime default current_timestamp on update current_timestamp")
     private LocalDateTime updated;
+
+    public void change(String lcTrainingName, String userLevel) {
+        this.lcTrainingName = lcTrainingName;
+        this.userLevel = userLevel;
+    }
 }

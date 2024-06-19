@@ -13,6 +13,10 @@ public interface LevelService {
 
     public LevelLogResponseDTO getLevelLog(Long id);
 
+    public void updateLevelLog(LevelLogDTO levelLogDTO, Long id);
+
+    public void remove(Long id);
+
     default LevelLog levelLogDtoToEntity(LevelLogDTO levelLogDTO, String userLevel) {
         LevelLog levelLog = LevelLog.builder()
                 .userLevel(userLevel)

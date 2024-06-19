@@ -30,4 +30,15 @@ public class LevelController {
     public LevelLogResponseDTO getOneLevelLog(@PathVariable Long id) {
         return levelService.getLevelLog(id);
     }
+
+    @PutMapping("/log/{id}")
+    public void updateLevelLog(@RequestBody LevelLogDTO levelLogDTO,
+                               @PathVariable Long id) {
+        levelService.updateLevelLog(levelLogDTO, id);
+    }
+
+    @DeleteMapping("/log/{id}")
+    public void removeLevelLog(@PathVariable Long id) {
+        levelService.remove(id);
+    }
 }
