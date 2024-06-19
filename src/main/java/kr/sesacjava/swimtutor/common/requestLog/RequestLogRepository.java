@@ -1,6 +1,5 @@
-package kr.sesacjava.swimtutor.leveltest.repository;
+package kr.sesacjava.swimtutor.common.requestLog;
 
-import kr.sesacjava.swimtutor.common.requestLog.RequestLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RequestLogRepository extends JpaRepository<RequestLog, Integer> {

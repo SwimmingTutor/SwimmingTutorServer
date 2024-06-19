@@ -1,7 +1,7 @@
 package kr.sesacjava.swimtutor.leveltest.service;
 
+import kr.sesacjava.swimtutor.common.requestLog.RequestLogRepository;
 import kr.sesacjava.swimtutor.leveltest.repository.LevelLogRepository;
-import kr.sesacjava.swimtutor.leveltest.repository.RequestLogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
