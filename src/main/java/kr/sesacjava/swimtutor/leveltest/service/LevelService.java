@@ -13,9 +13,9 @@ public interface LevelService {
 
     public LevelLogResponseDTO getLevelLog(Long id);
 
-    default LevelLog levelLogDtoToEntity(LevelLogDTO levelLogDTO) {
+    default LevelLog levelLogDtoToEntity(LevelLogDTO levelLogDTO, String userLevel) {
         LevelLog levelLog = LevelLog.builder()
-                .userLevel(levelLogDTO.getUserLevel())
+                .userLevel(userLevel)
                 .lcTrainingName(levelLogDTO.getStyle())
                 .oauthLoginId("user1@gmail.com")
                 .oauthLoginPlatform("google")
@@ -32,6 +32,5 @@ public interface LevelService {
 
         return levelLogResponseDTO;
     }
-
 
 }

@@ -7,33 +7,24 @@ import kr.sesacjava.swimtutor.leveltest.dto.LevelLogResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.entity.LevelLog;
 import kr.sesacjava.swimtutor.leveltest.repository.LevelClassificationRepository;
 import kr.sesacjava.swimtutor.leveltest.repository.LevelLogRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
+@Log4j2
 public class LevelServiceImpl implements LevelService {
-    private static final Logger log = LoggerFactory.getLogger(LevelServiceImpl.class);
+    
     private final LevelLogRepository levelLogRepository;
     private final LevelClassificationRepository levelClassificationRepository;
     private final RequestLogRepository requestLogRepository;
 
-    //    @Autowired
-    public LevelServiceImpl(LevelLogRepository llRepo,
-                            RequestLogRepository rlRepo,
-                            LevelClassificationRepository levelClassificationRepository) {
-        log.info("LevelLogService() 생성자 호출되면서 LevelLogRepository, RequestLogRepository Bean 객체가 Autowired 됨.");
-        this.levelLogRepository = llRepo;
-        this.requestLogRepository = rlRepo;
-        this.levelClassificationRepository = levelClassificationRepository;
-    }
-
     @Override
     public void registerLevelLog(LevelLogDTO levelLogDTO) {
-        LevelLog levelLog = levelLogDtoToEntity(levelLogDTO);
+        LevelLog levelLog = levelLogDtoToEntity(levelLogDTO, userLevel(levelLogDTO));
 
         levelLogRepository.save(levelLog);
     }
@@ -55,5 +46,13 @@ public class LevelServiceImpl implements LevelService {
         }
 
         return levelLogEntityToDto(levelLog);
+    }
+
+    private String userLevel(LevelLogDTO levelLogDTO) {
+        int total = levelLogDTO.getDistance() + levelLogDTO.getSpeed() + levelLogDTO.getTechnique();
+
+        if (total >= 7) return "상급";
+        if (total >= 4) return "중급";
+        return "초급";
     }
 }
