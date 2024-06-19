@@ -43,7 +43,7 @@ class ExerciseRecordRepositoryTest {
     @Test
     public void testList() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
-            ExerciseRecord board = ExerciseRecord.builder()
+            ExerciseRecord exerciseRecord = ExerciseRecord.builder()
                     .startTime(LocalDateTime.now())
                     .oauthLoginId("abcd")
                     .oauthLoginPlatform("google")
@@ -51,7 +51,7 @@ class ExerciseRecordRepositoryTest {
                     .record(i * 10.0)
                     .build();
 
-            recordRepository.save(board);
+            recordRepository.save(exerciseRecord);
         });
 
         List<ExerciseRecord> list = recordRepository.findAll();
