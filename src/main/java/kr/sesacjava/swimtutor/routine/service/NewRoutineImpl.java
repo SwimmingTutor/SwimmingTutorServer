@@ -19,22 +19,23 @@ import java.util.Random;
 @Service
 public class NewRoutineImpl implements NewRoutineService {
 
-    private static final Logger log = LoggerFactory.getLogger(NewRoutineImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NewRoutineImpl.class);
+
     private TrainingRepository trainingRepo;
     private TrainingForRoutineRepository trainingForRoutineRepo;
 
-    private List<String> sessions = Arrays.asList("Warm-up", "Main", "Cool-down");
+    private static final List<String> SESSIONS = Arrays.asList("Warm-up", "Main", "Cool-down");
 
     @Autowired
     public NewRoutineImpl(TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-        log.info("NewRoutineImpl created");
+        LOG.info("===== NewRoutineImpl created =====");
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
     }
 
     // 세션별 목표거리 계산
     public int calculateDistanceForSession(int baseDistance, double sessionPercentage, double variationPercentage) {
-        log.info("calculateDistanceForSession");
+        LOG.info("===== calculateDistanceForSession =====");
         // 세션 목표거리의 하한값
         double minDistance = baseDistance * sessionPercentage * (1 - variationPercentage);
         // 세션 목표거리의 상한값
@@ -47,7 +48,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 세션별 선택 가능 훈련 목록 선정
     public List<Training> selectAvailableTrainings(int sessionTargetDistance, String selStrokes) {
-        log.info("selectAvailableTrainings");
+        LOG.info("===== selectAvailableTrainings =====");
 
         List<Training> allTrainings = trainingRepo.findAll();
         List<Training> availableTrainings = new ArrayList<>();
@@ -55,7 +56,6 @@ public class NewRoutineImpl implements NewRoutineService {
                 .map(String::trim)
                 .toList();
 
-        // 모든 훈련에 대해 반복
         for (Training training : allTrainings) {
             // 선택한 영법에 포함되는 훈련이고
             if (selStrokeList.contains(training.getStrokeName())
@@ -73,7 +73,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 세션별 훈련 선택
     public List<Training> selectTrainingsForSession(int sessionTargetDistance, List<Training> availableTrainings) {
-        log.info("selectTrainingsForSession");
+        LOG.info("===== selectTrainingsForSession =====");
         List<Training> selectedTrainings = new ArrayList<>();
 
         // 목표거리가 0이 될 때까지 훈련을 선택
@@ -98,41 +98,43 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 루틴 생성
     public List<RequestTrainingForRoutineDTO> createRoutine(int targetDistance, String selStrokes) {
-        log.info("selectTrainingsForRoutine");
-        List<Double> sessionPercentages = Arrays.asList(0.3, 0.6, 0.1); // 세션별 목표거리 비율
-        Double variationPercentage = 0.05;                              // 목표거리 변동률
+        LOG.info("===== selectTrainingsForRoutine =====");
+
         List<RequestTrainingForRoutineDTO> selectedTrainingsForRoutine = new ArrayList<>(
-        );           // 선택된 훈련 목록
+        );
 
-        // 세션별 훈련 선택
-        for (int i = 0; i < sessions.size(); i++) {
-            RequestTrainingForRoutineDTO selectedTraining = new RequestTrainingForRoutineDTO();
-            // 세션
-            selectedTraining.setSession(sessions.get(i));
+        // 세션별 목표거리 비율
+        List<Double> sessionPercentages = Arrays.asList(0.3, 0.6, 0.1);
+        // 목표거리 변동률
+        double variationPercentage = 0.05;
 
-            // 목표거리
+        // 훈련 선택(세션 수만큼 반복)
+        for (int i = 0; i < SESSIONS.size(); i++) {
+            // 목표거리 계산
             int sessionTargetDistance = calculateDistanceForSession(targetDistance, sessionPercentages.get(i), variationPercentage);
             // 선택 가능한 훈련 목록
             List<Training> availableTrainingsForSession = selectAvailableTrainings(sessionTargetDistance, selStrokes);
             // 훈련 선택
             List<Training> selectedTrainings = selectTrainingsForSession(sessionTargetDistance, availableTrainingsForSession);
 
-            // 선택된 훈련을 루틴에 추가
+            // 선택된 훈련을 list에 추가
             for (Training training : selectedTrainings) {
-                selectedTraining.setTrainingId(training.getTrainingId());
-                selectedTraining.setStrokeName(training.getStrokeName());
-                selectedTraining.setDistance(training.getDistance());
-                selectedTraining.setSets(training.getSets());
+                RequestTrainingForRoutineDTO selectedTraining = RequestTrainingForRoutineDTO.builder()
+                        .session(SESSIONS.get(i))
+                        .trainingId(training.getTrainingId())
+                        .strokeName(training.getStrokeName())
+                        .distance(training.getDistance())
+                        .sets(training.getSets())
+                        .build();
                 selectedTrainingsForRoutine.add(selectedTraining);
             }
         }
-        // 훈련 선택 결과 반환
         return selectedTrainingsForRoutine;
     }
 
     // 루틴 저장
     public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(RequestRoutineDTO routine) {
-        log.info("create routine");
+        LOG.info("===== create routine =====");
 
         int targetDistance = routine.getTargetDistance();
         String selStrokes = routine.getSelStrokes();
@@ -147,7 +149,7 @@ public class NewRoutineImpl implements NewRoutineService {
             trainingsForRoutine.add(trainingForRoutine);
         }
         trainingForRoutineRepo.saveAll(trainingsForRoutine);
-        log.info("saveAll trainingsForRoutine");
+        LOG.info("===== saveAll trainingsForRoutine =====");
         return trainings;
     }
 }

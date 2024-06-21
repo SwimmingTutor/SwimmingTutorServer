@@ -1,12 +1,13 @@
 package kr.sesacjava.swimtutor.routine.dto;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
-@Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RequestTrainingForRoutineDTO {
     // TrainingForRoutine
     private String session;

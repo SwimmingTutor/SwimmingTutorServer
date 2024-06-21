@@ -22,14 +22,14 @@ import java.util.List;
 @Service
 public class RoutineImpl implements RoutineService {
 
-    private static final Logger log = LoggerFactory.getLogger(RoutineImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RoutineImpl.class);
     private RoutineRepository routineRepo;
     private TrainingRepository trainingRepo;
     private TrainingForRoutineRepository trainingForRoutineRepo;
 
     @Autowired
     public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-        log.info("RoutineImpl created");
+        LOG.info("RoutineImpl created");
         this.routineRepo = routineRepo;
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
@@ -37,18 +37,18 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 목록
     public List<ResponseRoutineDTO> getRoutines() {
-        log.info("RoutineImpl getRoutines");
+        LOG.info("RoutineImpl getRoutines");
         List<Routine> routines = routineRepo.findAll();
         List<ResponseRoutineDTO> responseRoutineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
-            ResponseRoutineDTO responseRoutineDTO = new ResponseRoutineDTO(
-                    routine.getRoutineName(),
-                    routine.getPoolLength(),
-                    routine.getTargetDistance(),
-                    routine.getSelStrokes(),
-                    routine.getCreated(),
-                    routine.getUpdated()
-            );
+            ResponseRoutineDTO responseRoutineDTO = ResponseRoutineDTO.builder()
+                    .routineName(routine.getRoutineName())
+                    .poolLength(routine.getPoolLength())
+                    .targetDistance(routine.getTargetDistance())
+                    .selStrokes(routine.getSelStrokes())
+                    .created(routine.getCreated())
+                    .updated(routine.getUpdated())
+                    .build();
             responseRoutineDTOs.add(responseRoutineDTO);
         }
         return responseRoutineDTOs;
@@ -56,7 +56,7 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 상세
     public ResponseRoutineDetailDTO getRoutineDetail(RoutineId routineId) {
-        log.info("RoutineImpl getRoutine");
+        LOG.info("RoutineImpl getRoutine");
         // 루틴 정보 조회
         Routine routine = routineRepo.findById(routineId).orElse(null);
 
@@ -78,30 +78,34 @@ public class RoutineImpl implements RoutineService {
                     responseRoutineDetailDTOs.add(responseTrainingForRoutineDTO);
                 }
             }
-            ResponseRoutineDetailDTO responseRoutineDetailDTO = new ResponseRoutineDetailDTO(
-                    routine.getRoutineName(),
-                    routine.getPoolLength(),
-                    routine.getTargetDistance(),
-                    routine.getSelStrokes(),
-                    routine.getCreated(),
-                    routine.getUpdated(),
-                    responseRoutineDetailDTOs
-            );
-            return responseRoutineDetailDTO;
+            return ResponseRoutineDetailDTO.builder()
+                    .routineName(routine.getRoutineName())
+                    .poolLength(routine.getPoolLength())
+                    .targetDistance(routine.getTargetDistance())
+                    .selStrokes(routine.getSelStrokes())
+                    .created(routine.getCreated())
+                    .updated(routine.getUpdated())
+                    .trainingsForRoutine(responseRoutineDetailDTOs)
+                    .build();
         }
         return null;
     }
 
     // 루틴 저장
-    public Routine saveRoutine(RequestRoutineDTO requestRoutineDTO) {
-        log.info("RoutineImpl saveRoutine");
-        Routine routine = new Routine();
+    public Routine saveRoutine(RequestRoutineDTO routineDTO) {
+        LOG.info("RoutineImpl saveRoutine");
+        Routine routine = Routine.builder()
+                .routineName(routineDTO.getRoutineName())
+                .poolLength(routineDTO.getPoolLength())
+                .targetDistance(routineDTO.getTargetDistance())
+                .selStrokes(routineDTO.getSelStrokes())
+                .build();
         return routineRepo.save(routine);
     }
 
     // 루틴 삭제
     public Routine deleteRoutine(RoutineId routineId) {
-        log.info("RoutineImpl deleteRoutine");
+        LOG.info("RoutineImpl deleteRoutine");
         Routine routine = routineRepo.findById(routineId).orElse(null);
         routineRepo.deleteById(routineId);
         return routine;

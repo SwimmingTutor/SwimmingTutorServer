@@ -18,28 +18,28 @@ import java.util.List;
 @RequestMapping("/routine")
 public class RoutineController {
 
-    private static final Logger log = LoggerFactory.getLogger(RoutineController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RoutineController.class);
     private NewRoutineImpl newRoutineImpl;
     private RoutineImpl routineImpl;
 
     @Autowired
     public RoutineController(NewRoutineImpl newRoutineImpl, RoutineImpl routineImpl) {
-        log.info("RoutineController created");
+        LOG.info("RoutineController created");
         this.newRoutineImpl = newRoutineImpl;
         this.routineImpl = routineImpl;
     }
 
     // 루틴 목록
     @GetMapping
-    public List<ResponseRoutineDTO> getRoutine() {
-        log.info("routineService getRoutine");
+    public List<ResponseRoutineDTO> getRoutines() {
+        LOG.info("routineService getRoutine");
         return routineImpl.getRoutines();
     }
 
     // 루틴 상세
     @GetMapping("/{routineNo}")
     public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable int routineNo, @RequestParam String oauthLoginId, @RequestParam String oauthLoginPlatform) {
-        log.info("routineDetailService getRoutineDetail");
+        LOG.info("routineDetailService getRoutineDetail");
         RoutineId routineId = new RoutineId(routineNo, oauthLoginId, oauthLoginPlatform);
         return routineImpl.getRoutineDetail(routineId);
     }
@@ -47,7 +47,7 @@ public class RoutineController {
     // 루틴 생성
     @PostMapping
     public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(@RequestBody RequestRoutineDTO routine) {
-        log.info("routineService saveTrainingsForRoutine");
+        LOG.info("routineService saveTrainingsForRoutine");
         return newRoutineImpl.saveTrainingsForRoutine(routine);
     }
 }
