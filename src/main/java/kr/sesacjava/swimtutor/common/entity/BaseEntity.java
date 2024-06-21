@@ -1,4 +1,4 @@
-package kr.sesacjava.swimtutor.record.entity;
+package kr.sesacjava.swimtutor.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(value = {AuditingEntityListener.class})
 @Getter
-abstract class BaseEntity {
+public abstract class BaseEntity {
     @CreatedDate
     @Column(name = "created", updatable = false)
     private LocalDateTime created;
