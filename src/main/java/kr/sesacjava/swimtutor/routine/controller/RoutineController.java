@@ -1,11 +1,12 @@
 package kr.sesacjava.swimtutor.routine.controller;
 
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
+import kr.sesacjava.swimtutor.routine.dto.RequestTrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseTrainingForRoutineDTO;
-import kr.sesacjava.swimtutor.routine.service.NewRoutineService;
-import kr.sesacjava.swimtutor.routine.service.RoutineService;
+import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
+import kr.sesacjava.swimtutor.routine.service.NewRoutineImpl;
+import kr.sesacjava.swimtutor.routine.service.RoutineImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,31 +19,35 @@ import java.util.List;
 public class RoutineController {
 
     private static final Logger log = LoggerFactory.getLogger(RoutineController.class);
-    private NewRoutineService newRoutineService;
-    private RoutineService routineService;
+    private NewRoutineImpl newRoutineImpl;
+    private RoutineImpl routineImpl;
 
     @Autowired
-    public RoutineController(NewRoutineService newRoutineService, RoutineService routineService) {
+    public RoutineController(NewRoutineImpl newRoutineImpl, RoutineImpl routineImpl) {
         log.info("RoutineController created");
-        this.newRoutineService = newRoutineService;
-        this.routineService = routineService;
+        this.newRoutineImpl = newRoutineImpl;
+        this.routineImpl = routineImpl;
     }
 
+    // 루틴 목록
     @GetMapping
     public List<ResponseRoutineDTO> getRoutine() {
         log.info("routineService getRoutine");
-        return routineService.getRoutines();
+        return routineImpl.getRoutines();
     }
 
-    @GetMapping("/{routine_id}")
-    public List<ResponseRoutineDetailDTO> getRoutineDetail(@PathVariable int routine_id) {
+    // 루틴 상세
+    @GetMapping("/{routineNo}")
+    public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable int routineNo, @RequestParam String oauthLoginId, @RequestParam String oauthLoginPlatform) {
         log.info("routineDetailService getRoutineDetail");
-        return routineService.getRoutineDetail(routine_id);
+        RoutineId routineId = new RoutineId(routineNo, oauthLoginId, oauthLoginPlatform);
+        return routineImpl.getRoutineDetail(routineId);
     }
 
+    // 루틴 생성
     @PostMapping
-    public List<ResponseTrainingForRoutineDTO> saveTrainingsForRoutine(RequestRoutineDTO routine) {
+    public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(@RequestBody RequestRoutineDTO routine) {
         log.info("routineService saveTrainingsForRoutine");
-        return newRoutineService.saveTrainingsForRoutine(routine);
+        return newRoutineImpl.saveTrainingsForRoutine(routine);
     }
 }

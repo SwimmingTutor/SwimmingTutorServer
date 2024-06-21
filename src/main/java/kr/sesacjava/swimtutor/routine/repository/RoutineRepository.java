@@ -1,6 +1,5 @@
 package kr.sesacjava.swimtutor.routine.repository;
 
-import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface RoutineRepository extends JpaRepository<Routine, RoutineId> {
-    Optional<ResponseRoutineDTO> findById(int id);
+    Optional<Routine> findById(RoutineId routineId);
 
-    void deleteById(int id);
+    void deleteById(RoutineId routineId);
 }

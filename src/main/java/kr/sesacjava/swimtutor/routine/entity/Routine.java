@@ -33,8 +33,8 @@ public class Routine {
     @Column(name = "routine_name")
     private String routineName;
 
-    @Column(name = "unit_length")
-    private int unitLength;
+    @Column(name = "pool_length")
+    private int poolLength;
 
     @Column(name = "target_distance")
     private int targetDistance;
@@ -47,40 +47,4 @@ public class Routine {
 
     @Column(name = "updated")
     private LocalDateTime updated;
-
-    public Integer getRoutineId() {
-        return routineId;
-    }
-
-    public String getOauthLoginId() {
-        return oauthLoginId;
-    }
-
-    public String getOauthLoginPlatform() {
-        return oauthLoginPlatform;
-    }
-
-    public String getRoutineName() {
-        return routineName;
-    }
-
-    public int getUnitLength() {
-        return unitLength;
-    }
-
-    public int getTargetDistance() {
-        return targetDistance;
-    }
-
-    public String getSelStrokes() {
-        return selStrokes;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public LocalDateTime getUpdated() {
-        return updated;
-    }
 }
