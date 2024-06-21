@@ -2,7 +2,6 @@ package kr.sesacjava.swimtutor.routine.entity;
 
 import jakarta.persistence.*;
 import kr.sesacjava.swimtutor.routine.entity.id.TrainingForRoutineId;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 @IdClass(TrainingForRoutineId.class)
 @Getter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
 public class TrainingForRoutine {
 
