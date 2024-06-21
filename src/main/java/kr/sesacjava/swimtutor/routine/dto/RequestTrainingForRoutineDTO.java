@@ -1,9 +1,6 @@
 package kr.sesacjava.swimtutor.routine.dto;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @ToString
@@ -17,4 +14,13 @@ public class RequestTrainingForRoutineDTO {
     private String strokeName;
     private int distance;
     private int sets;
+
+    @Builder
+    public RequestTrainingForRoutineDTO(String session, String trainingId, String strokeName, int distance, int sets) {
+        this.session = session;
+        this.trainingId = trainingId;
+        this.strokeName = strokeName;
+        this.distance = distance;
+        this.sets = sets;
+    }
 }

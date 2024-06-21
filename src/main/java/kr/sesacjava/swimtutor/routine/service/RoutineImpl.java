@@ -69,12 +69,13 @@ public class RoutineImpl implements RoutineService {
                 Training training = trainingRepo.findById(trainingForRoutine.getTrainingId()).orElse(null);
                 // 훈련 정보가 존재할 경우
                 if (training != null) {
-                    ResponseTrainingForRoutineDTO responseTrainingForRoutineDTO = new ResponseTrainingForRoutineDTO(
-                            trainingForRoutine.getSession(),
-                            training.getStrokeName(),
-                            training.getDistance(),
-                            training.getSets()
-                    );
+                    ResponseTrainingForRoutineDTO responseTrainingForRoutineDTO = ResponseTrainingForRoutineDTO.builder()
+                            .session(trainingForRoutine.getSession())
+                            .strokeName(training.getStrokeName())
+                            .distance(training.getDistance())
+                            .sets(training.getSets())
+                            .build(
+                            );
                     responseRoutineDetailDTOs.add(responseTrainingForRoutineDTO);
                 }
             }

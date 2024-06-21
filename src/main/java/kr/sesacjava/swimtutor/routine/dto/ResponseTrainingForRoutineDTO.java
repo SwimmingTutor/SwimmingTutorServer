@@ -15,9 +15,9 @@ public class ResponseTrainingForRoutineDTO {
     private int sets;
 
     @Builder
-    public ResponseTrainingForRoutineDTO(String session, String selStrokes, int distance, int sets) {
+    public ResponseTrainingForRoutineDTO(String session, String strokeName, int distance, int sets) {
         this.session = session;
-        this.selStrokes = selStrokes;
+        this.selStrokes = strokeName;
         this.distance = distance;
         this.sets = sets;
     }
