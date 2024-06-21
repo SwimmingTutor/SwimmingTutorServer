@@ -1,7 +1,7 @@
 package kr.sesacjava.swimtutor.routine.service;
 
-import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.RequestTrainingForRoutineDTO;
+import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
 import kr.sesacjava.swimtutor.routine.entity.TrainingForRoutine;
 import kr.sesacjava.swimtutor.routine.repository.TrainingForRoutineRepository;
@@ -28,14 +28,14 @@ public class NewRoutineImpl implements NewRoutineService {
 
     @Autowired
     public NewRoutineImpl(TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-        LOG.info("===== NewRoutineImpl created =====");
+        LOG.info("NewRoutineImpl 생성자 호출");
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
     }
 
     // 세션별 목표거리 계산
     public int calculateDistanceForSession(int baseDistance, double sessionPercentage, double variationPercentage) {
-        LOG.info("===== calculateDistanceForSession =====");
+        LOG.info("NewRoutineImpl - calculateDistanceForSession 호출");
         // 세션 목표거리의 하한값
         double minDistance = baseDistance * sessionPercentage * (1 - variationPercentage);
         // 세션 목표거리의 상한값
@@ -48,7 +48,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 세션별 선택 가능 훈련 목록 선정
     public List<Training> selectAvailableTrainings(int sessionTargetDistance, String selStrokes) {
-        LOG.info("===== selectAvailableTrainings =====");
+        LOG.info("NewRoutineImpl - selectAvailableTrainings 호출");
 
         List<Training> allTrainings = trainingRepo.findAll();
         List<Training> availableTrainings = new ArrayList<>();
@@ -73,7 +73,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 세션별 훈련 선택
     public List<Training> selectTrainingsForSession(int sessionTargetDistance, List<Training> availableTrainings) {
-        LOG.info("===== selectTrainingsForSession =====");
+        LOG.info("NewRoutineImpl - selectTrainingsForSession 호출");
         List<Training> selectedTrainings = new ArrayList<>();
 
         // 목표거리가 0이 될 때까지 훈련을 선택
@@ -98,7 +98,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 루틴 생성
     public List<RequestTrainingForRoutineDTO> createRoutine(int targetDistance, String selStrokes) {
-        LOG.info("===== selectTrainingsForRoutine =====");
+        LOG.info("NewRoutineImpl - createRoutine 호출");
 
         List<RequestTrainingForRoutineDTO> selectedTrainingsForRoutine = new ArrayList<>(
         );
@@ -133,8 +133,8 @@ public class NewRoutineImpl implements NewRoutineService {
     }
 
     // 루틴 저장
-    public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(RequestRoutineDTO routine) {
-        LOG.info("===== create routine =====");
+    public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(Routine routine) {
+        LOG.info("NewRoutineImpl - saveTrainingsForRoutine 호출");
 
         int targetDistance = routine.getTargetDistance();
         String selStrokes = routine.getSelStrokes();
@@ -143,9 +143,15 @@ public class NewRoutineImpl implements NewRoutineService {
         List<RequestTrainingForRoutineDTO> trainings = createRoutine(targetDistance, selStrokes);
         List<TrainingForRoutine> trainingsForRoutine = new ArrayList<>();
 
-        // 선택된 훈련을 루틴에 저장
+        // 선택된 훈련을 DB에 저장
         for (RequestTrainingForRoutineDTO training : trainings) {
-            TrainingForRoutine trainingForRoutine = new TrainingForRoutine();
+            TrainingForRoutine trainingForRoutine = TrainingForRoutine.builder()
+                    .routineNo(routine.getRoutineNo())
+                    .oauthLoginId(routine.getOauthLoginId())
+                    .oauthLoginPlatform(routine.getOauthLoginPlatform())
+                    .session(training.getSession())
+                    .trainingId(training.getTrainingId())
+                    .build();
             trainingsForRoutine.add(trainingForRoutine);
         }
         trainingForRoutineRepo.saveAll(trainingsForRoutine);

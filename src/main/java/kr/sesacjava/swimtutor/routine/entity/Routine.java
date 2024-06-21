@@ -16,17 +16,17 @@ public class Routine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "routine_id")
-    private Integer routineId;
+    private int routineNo;
 
     @Id
     @Column(name = "oauth_login_id")
     private String oauthLoginId;
 
     @Id
-    @Column(name = "oauth_login_platform")
+    @Column(name = "oauth_login_platform", length = 32)
     private String oauthLoginPlatform;
 
-    @Column(name = "routine_name")
+    @Column(name = "routine_name", length = 20)
     private String routineName;
 
     @Column(name = "pool_length")

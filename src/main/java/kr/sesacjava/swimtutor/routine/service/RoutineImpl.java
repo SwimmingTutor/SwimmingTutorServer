@@ -1,5 +1,6 @@
 package kr.sesacjava.swimtutor.routine.service;
 
+import jakarta.transaction.Transactional;
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
@@ -29,7 +30,7 @@ public class RoutineImpl implements RoutineService {
 
     @Autowired
     public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-        LOG.info("RoutineImpl created");
+        LOG.info("RoutineImpl 생성자 호출");
         this.routineRepo = routineRepo;
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
@@ -37,7 +38,7 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 목록
     public List<ResponseRoutineDTO> getRoutines() {
-        LOG.info("RoutineImpl getRoutines");
+        LOG.info("RoutineImpl - getRoutines 호출");
         List<Routine> routines = routineRepo.findAll();
         List<ResponseRoutineDTO> responseRoutineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
@@ -55,46 +56,40 @@ public class RoutineImpl implements RoutineService {
     }
 
     // 루틴 상세
+    @Transactional
     public ResponseRoutineDetailDTO getRoutineDetail(RoutineId routineId) {
-        LOG.info("RoutineImpl getRoutine");
-        // 루틴 정보 조회
-        Routine routine = routineRepo.findById(routineId).orElse(null);
+        LOG.info("RoutineImpl - getRoutineDetail 호출");
+        ResponseRoutineDetailDTO responseRoutineDetailDTO = null;
 
-        // 루틴 정보가 존재할 경우
-        if (routine != null) {
-            List<TrainingForRoutine> trainingsForRoutine = trainingForRoutineRepo.findByRoutineId(routineId);
-            List<ResponseTrainingForRoutineDTO> responseRoutineDetailDTOs = new ArrayList<>();
-            // 루틴에 포함된 훈련 정보 조회
-            for (TrainingForRoutine trainingForRoutine : trainingsForRoutine) {
-                Training training = trainingRepo.findById(trainingForRoutine.getTrainingId()).orElse(null);
-                // 훈련 정보가 존재할 경우
-                if (training != null) {
-                    ResponseTrainingForRoutineDTO responseTrainingForRoutineDTO = ResponseTrainingForRoutineDTO.builder()
-                            .session(trainingForRoutine.getSession())
-                            .strokeName(training.getStrokeName())
-                            .distance(training.getDistance())
-                            .sets(training.getSets())
-                            .build(
-                            );
-                    responseRoutineDetailDTOs.add(responseTrainingForRoutineDTO);
-                }
-            }
-            return ResponseRoutineDetailDTO.builder()
-                    .routineName(routine.getRoutineName())
-                    .poolLength(routine.getPoolLength())
-                    .targetDistance(routine.getTargetDistance())
-                    .selStrokes(routine.getSelStrokes())
-                    .created(routine.getCreated())
-                    .updated(routine.getUpdated())
-                    .trainingsForRoutine(responseRoutineDetailDTOs)
+        // 루틴 정보
+        Routine routine = routineRepo.getReferenceById(routineId);
+        // 루틴에 대한 훈련 정보 - response 형태로 바꿀 방법..?
+        List<TrainingForRoutine> trainingsForRoutine = trainingForRoutineRepo.findAllByRoutineNo(routineId.getRoutineNo());
+        List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS = new ArrayList<>();
+        for (TrainingForRoutine trainingForRoutine : trainingsForRoutine) {
+            Training training = trainingRepo.findById(trainingForRoutine.getTrainingId()).orElse(null);
+            ResponseTrainingForRoutineDTO responseTrainingForRoutineDTO = ResponseTrainingForRoutineDTO.builder()
+                    .session(trainingForRoutine.getSession())
+                    .strokeName(training.getStrokeName())
+                    .distance(training.getDistance())
+                    .sets(training.getSets())
                     .build();
+            responseTrainingForRoutineDTOS.add(responseTrainingForRoutineDTO);
         }
-        return null;
+        responseRoutineDetailDTO.builder()
+                .routineName(routine.getRoutineName())
+                .targetDistance(routine.getTargetDistance())
+                .poolLength(routine.getPoolLength())
+                .selStrokes(routine.getSelStrokes())
+                .responseTrainingForRoutineDTOS(responseTrainingForRoutineDTOS)
+                .build();
+        // responseRoutineDetailDTO 반환
+        return responseRoutineDetailDTO;
     }
 
     // 루틴 저장
     public Routine saveRoutine(RequestRoutineDTO routineDTO) {
-        LOG.info("RoutineImpl saveRoutine");
+        LOG.info("RoutineImpl - saveRoutine 호출");
         Routine routine = Routine.builder()
                 .routineName(routineDTO.getRoutineName())
                 .poolLength(routineDTO.getPoolLength())
@@ -106,7 +101,7 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 삭제
     public Routine deleteRoutine(RoutineId routineId) {
-        LOG.info("RoutineImpl deleteRoutine");
+        LOG.info("RoutineImpl - deleteRoutine 호출");
         Routine routine = routineRepo.findById(routineId).orElse(null);
         routineRepo.deleteById(routineId);
         return routine;

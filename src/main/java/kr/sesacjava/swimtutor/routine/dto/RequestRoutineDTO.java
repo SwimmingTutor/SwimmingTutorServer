@@ -1,5 +1,8 @@
 package kr.sesacjava.swimtutor.routine.dto;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +13,8 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RequestRoutineDTO {
     // RoutineId
-    private String oauthLoginId;
-    private String oauthLoginPlatform;
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private RoutineId routineId;
 
     // Routine
     private String routineName;

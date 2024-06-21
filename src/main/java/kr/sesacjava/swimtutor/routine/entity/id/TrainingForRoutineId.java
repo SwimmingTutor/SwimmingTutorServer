@@ -10,7 +10,7 @@ import java.io.Serializable;
 @ToString
 @EqualsAndHashCode
 public class TrainingForRoutineId implements Serializable {
-    private Integer routineId;
+    private Integer routineNo;
     private String oauthLoginId;
     private String oauthLoginPlatform;
     private String trainingId;

@@ -1,7 +1,7 @@
 package kr.sesacjava.swimtutor.routine.service;
 
-import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.RequestTrainingForRoutineDTO;
+import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
 
 import java.util.List;
@@ -21,5 +21,5 @@ public interface NewRoutineService {
     List<RequestTrainingForRoutineDTO> createRoutine(int targetDistance, String selStrokes);
 
     // 루틴 저장
-    List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(RequestRoutineDTO routine);
+    List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(Routine routine);
 }

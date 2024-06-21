@@ -17,16 +17,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Training {
     @Id
-    @Column(name = "training_id")
+    @Column(name = "training_id", length = 8)
     private String trainingId;
 
-    @Column(name = "training_name")
+    @Column(name = "training_name", length = 10)
     private String strokeName;
 
-    @Column(name = "user_level")
+    @Column(name = "user_level", length = 3)
     private String userLevel;
 
-    @Column(name = "training_level")
+    @Column(name = "training_level", length = 3)
     private String strokeLevel;
 
     @Column(name = "distance")
