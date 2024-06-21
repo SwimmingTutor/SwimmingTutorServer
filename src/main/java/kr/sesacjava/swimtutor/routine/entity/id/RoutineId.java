@@ -1,15 +1,13 @@
 package kr.sesacjava.swimtutor.routine.entity.id;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Getter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 public class RoutineId implements Serializable {
     private Integer routineId;
     private String oauthLoginId;
