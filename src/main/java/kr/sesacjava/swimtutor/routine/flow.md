@@ -1,4 +1,4 @@
-# 루틴 관련 페이지 및 흐름
+# 루틴 관련 페이지 흐름
 
 ## 1 새 루틴 생성
 
@@ -70,5 +70,5 @@
 ### 생성 로직
 
 - 새 루틴 생성루틴 또는 루틴 목록에서 `routine_name`이나 `created` 선택
-- `routine_id`로 `routineDTO`, `trainingForRoutineDTO` 가져오기
+- `routine_id`로 `requestRoutineDTO`, `trainingForRoutineDTO` 가져오기
 - `training_id`로 세션별 `trainingDTO` 가져오기
