@@ -3,6 +3,7 @@ package kr.sesacjava.swimtutor.routine.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,90 +20,5 @@ public class ResponseRoutineDetailDTO {
     private LocalDateTime updated;
 
     // TrainingForRoutine
-    private String session;
-
-    // Training
-    private String strokeName;
-    private int distance;
-    private int sets;
-
-    public String getRoutineName() {
-        return routineName;
-    }
-
-    public void setRoutineName(String routineName) {
-        this.routineName = routineName;
-    }
-
-    public int getUnitLength() {
-        return unitLength;
-    }
-
-    public void setUnitLength(int unitLength) {
-        this.unitLength = unitLength;
-    }
-
-    public int getTargetDistance() {
-        return targetDistance;
-    }
-
-    public void setTargetDistance(int targetDistance) {
-        this.targetDistance = targetDistance;
-    }
-
-    public String getSelStrokes() {
-        return selStrokes;
-    }
-
-    public void setSelStrokes(String selStrokes) {
-        this.selStrokes = selStrokes;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(LocalDateTime updated) {
-        this.updated = updated;
-    }
-
-    public String getSession() {
-        return session;
-    }
-
-    public void setSession(String session) {
-        this.session = session;
-    }
-
-    public String getStrokeName() {
-        return strokeName;
-    }
-
-    public void setStrokeName(String strokeName) {
-        this.strokeName = strokeName;
-    }
-
-    public int getDistance() {
-        return distance;
-    }
-
-    public void setDistance(int distance) {
-        this.distance = distance;
-    }
-
-    public int getSets() {
-        return sets;
-    }
-
-    public void setSets(int sets) {
-        this.sets = sets;
-    }
+    private List<ResponseTrainingForRoutineDTO> trainingsForRoutine;
 }
