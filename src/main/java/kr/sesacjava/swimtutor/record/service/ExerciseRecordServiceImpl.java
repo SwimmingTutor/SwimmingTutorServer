@@ -4,18 +4,24 @@ import kr.sesacjava.swimtutor.common.exception.DuplicateKeyException;
 import kr.sesacjava.swimtutor.record.dto.ExerciseRecordDTO;
 import kr.sesacjava.swimtutor.record.entity.ExerciseRecord;
 import kr.sesacjava.swimtutor.record.entity.ExerciseRecordId;
+import kr.sesacjava.swimtutor.record.entity.RecordTime;
+import kr.sesacjava.swimtutor.record.entity.RecordTimeId;
 import kr.sesacjava.swimtutor.record.repository.ExerciseRecordRepository;
+import kr.sesacjava.swimtutor.record.repository.RecordTimeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class ExerciseRecordServiceImpl implements ExerciseRecordService {
     private final ExerciseRecordRepository recordRepository;
+    private final RecordTimeRepository recordTimeRepository;
 
     @Override
     public void register(ExerciseRecordDTO exerciseRecordDTO) {
@@ -44,5 +50,16 @@ public class ExerciseRecordServiceImpl implements ExerciseRecordService {
         return result.stream()
                 .map(this::entityToDto)
                 .toList();
+    }
+
+    @Override
+    public LocalDateTime lastRecordTime() {
+        RecordTimeId id = RecordTimeId.builder()
+                .oauthLoginId("abcd")
+                .oauthLoginPlatform("google")
+                .build();
+        Optional<RecordTime> result = recordTimeRepository.findById(id);
+
+        return result.map(RecordTime::getRecordTime).orElse(null);
     }
 }
