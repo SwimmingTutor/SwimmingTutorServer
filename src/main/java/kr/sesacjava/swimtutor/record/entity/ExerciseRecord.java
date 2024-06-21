@@ -3,6 +3,7 @@ package kr.sesacjava.swimtutor.record.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import kr.sesacjava.swimtutor.common.entity.BaseEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -26,5 +27,5 @@ public class ExerciseRecord extends BaseEntity {
 
     private LocalDateTime stopTime;
 
-    private Double record;
+    private Double value;
 }

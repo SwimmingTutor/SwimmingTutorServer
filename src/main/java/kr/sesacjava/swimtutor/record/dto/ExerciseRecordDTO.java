@@ -15,5 +15,5 @@ public class ExerciseRecordDTO {
     private LocalDateTime startTime;
     private LocalDateTime stopTime;
     private String category;
-    private Double record;
+    private Double value;
 }

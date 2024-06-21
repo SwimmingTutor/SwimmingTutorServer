@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,8 +22,25 @@ public class ExerciseRecordController {
         exerciseRecordService.register(exerciseRecordDTO);
     }
 
+//    @PostMapping("/")
+//    public void postExerciseRecord(@RequestBody ExerciseRecordDTO exerciseRecordDTO) {
+//        log.info("register");
+//        exerciseRecordService.register(exerciseRecordDTO);
+//    }
+
     @GetMapping("/")
     public List<ExerciseRecordDTO> getExerciseRecord() {
         return exerciseRecordService.list();
     }
+
+
+    @GetMapping("/last-time")
+    public LocalDateTime getLastRecordTime() {
+        return exerciseRecordService.lastRecordTime();
+    }
+
+//    @GetMapping("/")
+//    public LocalDateTime getLastExerciseTime() {
+//
+//    }
 }

@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,18 +22,19 @@ class ExerciseRecordRepositoryTest {
     ExerciseRecordRepository recordRepository;
 
     @Test
+    @Commit
     public void testInsert() {
         ExerciseRecord exerciseRecord = ExerciseRecord.builder()
                 .startTime(LocalDateTime.now())
                 .oauthLoginId("abcd")
                 .oauthLoginPlatform("google")
                 .category("speed")
-                .record(10.0)
+                .value(10.0)
                 .build();
 
         ExerciseRecord result = recordRepository.save(exerciseRecord);
 
-        assertThat(result.getRecord()).isEqualTo(exerciseRecord.getRecord());
+        assertThat(result.getValue()).isEqualTo(exerciseRecord.getValue());
         assertThat(result.getOauthLoginId()).isEqualTo(exerciseRecord.getOauthLoginId());
         assertThat(result.getOauthLoginPlatform()).isEqualTo(exerciseRecord.getOauthLoginPlatform());
         assertThat(result.getCategory()).isEqualTo(exerciseRecord.getCategory());
@@ -48,7 +50,7 @@ class ExerciseRecordRepositoryTest {
                     .oauthLoginId("abcd")
                     .oauthLoginPlatform("google")
                     .category("speed")
-                    .record(i * 10.0)
+                    .value(i * 10.0)
                     .build();
 
             recordRepository.save(exerciseRecord);
