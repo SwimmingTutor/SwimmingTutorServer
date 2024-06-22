@@ -10,14 +10,14 @@ public class ResponseTrainingForRoutineDTO {
     private String session;
 
     // Training
-    private String selStrokes;
+    private String strokeName;
     private int distance;
     private int sets;
 
     @Builder
     public ResponseTrainingForRoutineDTO(String session, String strokeName, int distance, int sets) {
         this.session = session;
-        this.selStrokes = strokeName;
+        this.strokeName = strokeName;
         this.distance = distance;
         this.sets = sets;
     }
