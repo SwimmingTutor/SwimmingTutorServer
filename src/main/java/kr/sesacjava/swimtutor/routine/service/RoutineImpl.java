@@ -60,14 +60,16 @@ public class RoutineImpl implements RoutineService {
     public ResponseRoutineDetailDTO getRoutineDetail(RoutineId routineId) {
 //        LOG.info("RoutineImpl - getRoutineDetail 호출");
         ResponseRoutineDetailDTO responseRoutineDetailDTO = null;
+        List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS = new ArrayList<>();
 
         // 루틴 정보
         Routine routine = routineRepo.getReferenceById(routineId);
-        // 루틴에 대한 훈련 정보 - response 형태로 바꿀 방법..?
+        // 루틴에 대한 훈련 정보
         List<TrainingForRoutine> trainingsForRoutine = trainingForRoutineRepo.findAllByRoutineNo(routineId.getRoutineNo());
-        List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS = new ArrayList<>();
+
+        // 루틴에 대한 훈련 정보를 DTO로 변환
         for (TrainingForRoutine trainingForRoutine : trainingsForRoutine) {
-            Training training = trainingRepo.findById(trainingForRoutine.getTrainingId()).orElse(null);
+            Training training = trainingRepo.getReferenceById(trainingForRoutine.getTrainingId());
             ResponseTrainingForRoutineDTO responseTrainingForRoutineDTO = ResponseTrainingForRoutineDTO.builder()
                     .session(trainingForRoutine.getSession())
                     .strokeName(training.getStrokeName())
@@ -76,14 +78,15 @@ public class RoutineImpl implements RoutineService {
                     .build();
             responseTrainingForRoutineDTOS.add(responseTrainingForRoutineDTO);
         }
-        responseRoutineDetailDTO.builder()
+        return ResponseRoutineDetailDTO.builder()
                 .routineName(routine.getRoutineName())
                 .targetDistance(routine.getTargetDistance())
                 .poolLength(routine.getPoolLength())
                 .selStrokes(routine.getSelStrokes())
+                .created(routine.getCreated())
+                .updated(routine.getUpdated())
                 .responseTrainingForRoutineDTOS(responseTrainingForRoutineDTOS)
                 .build();
-        return responseRoutineDetailDTO;
     }
 
     // 루틴 저장
