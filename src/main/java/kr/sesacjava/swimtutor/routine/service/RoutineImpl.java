@@ -30,7 +30,7 @@ public class RoutineImpl implements RoutineService {
 
     @Autowired
     public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-        LOG.info("RoutineImpl 생성자 호출");
+//        LOG.info("RoutineImpl 생성자 호출");
         this.routineRepo = routineRepo;
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
@@ -38,7 +38,7 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 목록
     public List<ResponseRoutineDTO> getRoutines() {
-        LOG.info("RoutineImpl - getRoutines 호출");
+//        LOG.info("RoutineImpl - getRoutines 호출");
         List<Routine> routines = routineRepo.findAll();
         List<ResponseRoutineDTO> responseRoutineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
@@ -58,7 +58,7 @@ public class RoutineImpl implements RoutineService {
     // 루틴 상세
     @Transactional
     public ResponseRoutineDetailDTO getRoutineDetail(RoutineId routineId) {
-        LOG.info("RoutineImpl - getRoutineDetail 호출");
+//        LOG.info("RoutineImpl - getRoutineDetail 호출");
         ResponseRoutineDetailDTO responseRoutineDetailDTO = null;
 
         // 루틴 정보
@@ -83,7 +83,6 @@ public class RoutineImpl implements RoutineService {
                 .selStrokes(routine.getSelStrokes())
                 .responseTrainingForRoutineDTOS(responseTrainingForRoutineDTOS)
                 .build();
-        // responseRoutineDetailDTO 반환
         return responseRoutineDetailDTO;
     }
 
@@ -101,7 +100,7 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 삭제
     public Routine deleteRoutine(RoutineId routineId) {
-        LOG.info("RoutineImpl - deleteRoutine 호출");
+//        LOG.info("RoutineImpl - deleteRoutine 호출");
         Routine routine = routineRepo.findById(routineId).orElse(null);
         routineRepo.deleteById(routineId);
         return routine;

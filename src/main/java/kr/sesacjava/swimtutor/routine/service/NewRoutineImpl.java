@@ -28,7 +28,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     @Autowired
     public NewRoutineImpl(TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-        LOG.info("NewRoutineImpl 생성자 호출");
+//        LOG.info("NewRoutineImpl 생성자 호출");
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
     }
@@ -48,7 +48,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 세션별 선택 가능 훈련 목록 선정
     public List<Training> selectAvailableTrainings(int sessionTargetDistance, String selStrokes) {
-        LOG.info("NewRoutineImpl - selectAvailableTrainings 호출");
+//        LOG.info("NewRoutineImpl - selectAvailableTrainings 호출");
 
         List<Training> allTrainings = trainingRepo.findAll();
         List<Training> availableTrainings = new ArrayList<>();
@@ -134,7 +134,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
     // 루틴 저장
     public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(Routine routine) {
-        LOG.info("NewRoutineImpl - saveTrainingsForRoutine 호출");
+//        LOG.info("NewRoutineImpl - saveTrainingsForRoutine 호출");
 
         int targetDistance = routine.getTargetDistance();
         String selStrokes = routine.getSelStrokes();
@@ -155,7 +155,7 @@ public class NewRoutineImpl implements NewRoutineService {
             trainingsForRoutine.add(trainingForRoutine);
         }
         trainingForRoutineRepo.saveAll(trainingsForRoutine);
-        LOG.info("===== saveAll trainingsForRoutine =====");
+//        LOG.info("saveAll trainingsForRoutine 완료");
         return trainings;
     }
 }

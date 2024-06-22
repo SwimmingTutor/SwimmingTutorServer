@@ -24,7 +24,7 @@ public class RoutineController {
 
     @Autowired
     public RoutineController(NewRoutineImpl newRoutineImpl, RoutineImpl routineImpl) {
-        LOG.info("RoutineController 생성자 호출");
+//        LOG.info("RoutineController 생성자 호출");
         this.newRoutineImpl = newRoutineImpl;
         this.routineImpl = routineImpl;
     }
@@ -32,14 +32,14 @@ public class RoutineController {
     // 루틴 목록
     @GetMapping
     public List<ResponseRoutineDTO> getRoutines() {
-        LOG.info("RoutineController - routineService getRoutines 호출");
+//        LOG.info("RoutineController - routineService getRoutines 호출");
         return routineImpl.getRoutines();
     }
 
     // 루틴 상세
     @GetMapping("/{routineNo}")
     public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable int routineNo, @RequestParam String oauthLoginId, @RequestParam String oauthLoginPlatform) {
-        LOG.info("RoutineController - routineDetailService getRoutineDetail 호출");
+//        LOG.info("RoutineController - routineDetailService getRoutineDetail 호출");
         RoutineId routineId = new RoutineId(routineNo, oauthLoginId, oauthLoginPlatform);
         return routineImpl.getRoutineDetail(routineId);
     }
@@ -47,7 +47,7 @@ public class RoutineController {
     // 루틴 생성
     @PostMapping
     public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(@RequestBody Routine routine) {
-        LOG.info("RoutineController - routineService saveTrainingsForRoutine 호출");
+//        LOG.info("RoutineController - routineService saveTrainingsForRoutine 호출");
         return newRoutineImpl.saveTrainingsForRoutine(routine);
     }
 }
