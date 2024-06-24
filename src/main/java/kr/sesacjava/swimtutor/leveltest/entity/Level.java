@@ -1,7 +1,9 @@
 package kr.sesacjava.swimtutor.leveltest.entity;
 
-import jakarta.persistence.*;
-import kr.sesacjava.swimtutor.leveltest.entity.id.LevelId;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,7 +13,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "level")
-@IdClass(LevelId.class)
 @Getter
 @ToString
 public class Level {
@@ -20,11 +21,9 @@ public class Level {
     @Column(name = "levellog_id", nullable = false)
     private Integer levelLogId;
 
-    @Id
     @Column(name = "oauth_login_id", nullable = false)
     private String oauthLoginId;
 
-    @Id
     @Column(name = "oauth_login_platform", nullable = false)
     private String oauthLoginPlatform;
 
