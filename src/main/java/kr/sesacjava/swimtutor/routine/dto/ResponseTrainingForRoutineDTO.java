@@ -6,7 +6,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ResponseTrainingForRoutineDTO {
-    // ResponseTrainingForRoutine
+    // TrainingForRoutine
     private String session;
 
     // Training

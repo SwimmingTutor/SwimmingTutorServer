@@ -1,9 +1,8 @@
 package kr.sesacjava.swimtutor.routine.controller;
 
-import kr.sesacjava.swimtutor.routine.dto.RequestTrainingForRoutineDTO;
+import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
-import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import kr.sesacjava.swimtutor.routine.service.NewRoutineImpl;
 import kr.sesacjava.swimtutor.routine.service.RoutineImpl;
@@ -32,22 +31,22 @@ public class RoutineController {
     // 루틴 목록
     @GetMapping
     public List<ResponseRoutineDTO> getRoutines() {
-//        LOG.info("RoutineController - routineService getRoutines 호출");
+//        LOG.info("routineService getRoutines 호출");
         return routineImpl.getRoutines();
     }
 
     // 루틴 상세
     @GetMapping("/{routineNo}")
-    public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable int routineNo, @RequestParam String oauthLoginId, @RequestParam String oauthLoginPlatform) {
-//        LOG.info("RoutineController - routineDetailService getRoutineDetail 호출");
+    public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable int routineNo, String oauthLoginId, String oauthLoginPlatform) {
+//        LOG.info("routineDetailService getRoutineDetail 호출");
         RoutineId routineId = new RoutineId(routineNo, oauthLoginId, oauthLoginPlatform);
         return routineImpl.getRoutineDetail(routineId);
     }
 
     // 루틴 생성
     @PostMapping
-    public List<RequestTrainingForRoutineDTO> saveTrainingsForRoutine(@RequestBody Routine routine) {
-//        LOG.info("RoutineController - routineService saveTrainingsForRoutine 호출");
-        return newRoutineImpl.saveTrainingsForRoutine(routine);
+    public void saveNewRoutine(@RequestBody RequestRoutineDTO requestRoutineDTO) {
+//        LOG.info("routineService saveTrainingsForRoutine 호출");
+        newRoutineImpl.saveNewRoutine(requestRoutineDTO);
     }
 }

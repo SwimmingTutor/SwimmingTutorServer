@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 목록
     public List<ResponseRoutineDTO> getRoutines() {
-//        LOG.info("RoutineImpl - getRoutines 호출");
+//        LOG.info("getRoutines 호출");
         List<Routine> routines = routineRepo.findAll();
         List<ResponseRoutineDTO> responseRoutineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
@@ -58,7 +59,7 @@ public class RoutineImpl implements RoutineService {
     // 루틴 상세
     @Transactional
     public ResponseRoutineDetailDTO getRoutineDetail(RoutineId routineId) {
-//        LOG.info("RoutineImpl - getRoutineDetail 호출");
+//        LOG.info("getRoutineDetail 호출");
         ResponseRoutineDetailDTO responseRoutineDetailDTO = null;
         List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS = new ArrayList<>();
 
@@ -90,15 +91,21 @@ public class RoutineImpl implements RoutineService {
     }
 
     // 루틴 저장
-    public Routine saveRoutine(RequestRoutineDTO routineDTO) {
-        LOG.info("RoutineImpl - saveRoutine 호출");
-        Routine routine = Routine.builder()
-                .routineName(routineDTO.getRoutineName())
-                .poolLength(routineDTO.getPoolLength())
-                .targetDistance(routineDTO.getTargetDistance())
-                .selStrokes(routineDTO.getSelStrokes())
-                .build();
-        return routineRepo.save(routine);
+    public Routine saveRoutine(RequestRoutineDTO requestRoutineDTO) {
+//        LOG.info("saveRoutine 호출");
+        int lastRoutineNo = routineRepo.findMaxRoutineNo();
+        return routineRepo.save(Routine.builder()
+                .routineNo(lastRoutineNo == 0 ? 1 : lastRoutineNo + 1)
+                .oauthLoginId(requestRoutineDTO.getOauthLoginId())
+                .oauthLoginPlatform(requestRoutineDTO.getOauthLoginPlatform())
+                .routineName(requestRoutineDTO.getRoutineName())
+                .poolLength(requestRoutineDTO.getPoolLength())
+                .targetDistance(requestRoutineDTO.getTargetDistance())
+                .selStrokes(requestRoutineDTO.getSelStrokes())
+                .created(LocalDateTime.now())
+                .updated(LocalDateTime.now())
+                .build()
+        );
     }
 
     // 루틴 삭제

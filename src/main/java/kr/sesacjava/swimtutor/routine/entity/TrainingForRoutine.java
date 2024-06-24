@@ -19,7 +19,7 @@ public class TrainingForRoutine {
 
     @Id
     @Column(name = "routine_id", nullable = false)
-    private Integer routineNo;
+    private int routineNo;
 
     @Id
     @Column(name = "oauth_login_id", nullable = false)
@@ -43,7 +43,7 @@ public class TrainingForRoutine {
     private LocalDateTime updated;
 
     @Builder
-    public TrainingForRoutine(Integer routineNo, String oauthLoginId, String oauthLoginPlatform, String session, String trainingId) {
+    public TrainingForRoutine(int routineNo, String oauthLoginId, String oauthLoginPlatform, String session, String trainingId) {
         this.routineNo = routineNo;
         this.oauthLoginId = oauthLoginId;
         this.oauthLoginPlatform = oauthLoginPlatform;

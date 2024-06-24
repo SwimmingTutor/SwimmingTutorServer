@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @Table(name = "routine")
 @IdClass(RoutineId.class)
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Routine {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "routine_id")
     private int routineNo;
 
@@ -45,7 +45,8 @@ public class Routine {
     private LocalDateTime updated;
 
     @Builder
-    public Routine(String oauthLoginId, String oauthLoginPlatform, String routineName, int poolLength, int targetDistance, String selStrokes, LocalDateTime created, LocalDateTime updated) {
+    public Routine(int routineNo, String oauthLoginId, String oauthLoginPlatform, String routineName, int poolLength, int targetDistance, String selStrokes, LocalDateTime created, LocalDateTime updated) {
+        this.routineNo = routineNo;
         this.oauthLoginId = oauthLoginId;
         this.oauthLoginPlatform = oauthLoginPlatform;
         this.routineName = routineName;
