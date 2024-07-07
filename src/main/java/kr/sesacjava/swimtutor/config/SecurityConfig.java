@@ -1,5 +1,7 @@
 package kr.sesacjava.swimtutor.config;
 
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import kr.sesacjava.swimtutor.jwt.JWTFilter;
 import kr.sesacjava.swimtutor.jwt.JWTUtil;
 import kr.sesacjava.swimtutor.oauth2.CustomSuccessHandler;
@@ -11,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +33,27 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
     // JWT를 통한 인증/인가 작업하기 때문에 설정하는 것들 -
+
+    http
+        .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+
+          @Override
+          public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+            CorsConfiguration configuration = new CorsConfiguration();
+
+            configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+            configuration.setAllowedMethods(Collections.singletonList("*"));
+            configuration.setAllowCredentials(true);
+            configuration.setAllowedHeaders(Collections.singletonList("*"));
+            configuration.setMaxAge(3600L);
+
+            configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+            configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+
+            return configuration;
+          }
+        }));
 
     //csrf disable
     http
