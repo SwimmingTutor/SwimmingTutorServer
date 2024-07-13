@@ -16,21 +16,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Record {
 
-    @Id
-    @Column(name = "starttime", nullable = false)
-    private LocalDateTime starttime;
+    @EmbeddedId
+    private RecordId recordId;
 
     @Column(name = "stoptime", nullable = false)
     private LocalDateTime stoptime;
-
-    @Column(name = "oauth_login_id", nullable = false)
-    private String oauthLoginId;
-
-    @Column(name = "oauth_login_platform", nullable = false)
-    private String oauthLoginPlatform;
-
-    @Column(name = "category", nullable = false)
-    private String category;
 
     @Column(name = "value", nullable = false)
     private Long value;
