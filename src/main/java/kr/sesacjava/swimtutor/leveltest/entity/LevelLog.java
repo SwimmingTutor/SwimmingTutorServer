@@ -1,7 +1,10 @@
 package kr.sesacjava.swimtutor.leveltest.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,7 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "level_log")
 @Getter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +20,7 @@ public class LevelLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "levelLog_id", nullable = false)
+    @Column(name = "level_log_id", nullable = false)
     private Integer levelLogId;
 
     @Column(name = "oauth_login_id", nullable = false)

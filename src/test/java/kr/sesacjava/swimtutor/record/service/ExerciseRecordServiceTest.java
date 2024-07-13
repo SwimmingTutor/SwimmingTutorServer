@@ -36,7 +36,7 @@ class ExerciseRecordServiceTest {
                 .startTime(now)
                 .stopTime(now.plusHours(1))
                 .category("speed")
-                .record(10.1)
+                .value(10.1)
                 .build();
 
         recordService.register(exerciseRecordDTO);
@@ -48,7 +48,7 @@ class ExerciseRecordServiceTest {
                 .category("speed")
                 .startTime(now).build()).orElseThrow();
 
-        assertThat(created.getRecord()).isEqualTo(10.1);
+        assertThat(created.getValue()).isEqualTo(10.1);
         assertThat(created.getCategory()).isEqualTo("speed");
     }
 
@@ -60,7 +60,7 @@ class ExerciseRecordServiceTest {
                 .startTime(now)
                 .stopTime(now.plusHours(1))
                 .category("speed")
-                .record(10.1)
+                .value(10.1)
                 .build();
 
         recordService.register(exerciseRecordDTO);
@@ -69,7 +69,7 @@ class ExerciseRecordServiceTest {
                 .startTime(now)
                 .stopTime(now.plusHours(1))
                 .category("speed")
-                .record(10.1)
+                .value(10.1)
                 .build();
 
         assertThatThrownBy(() -> recordService.register(exerciseRecordDTO2))
@@ -84,7 +84,7 @@ class ExerciseRecordServiceTest {
                     .startTime(now)
                     .stopTime(now.plusHours(1))
                     .category("speed")
-                    .record(i * 10.0)
+                    .value(i * 10.0)
                     .build();
 
             recordService.register(exerciseRecordDTO);
