@@ -8,7 +8,7 @@ body:
     attributes:
       label: "상위 작업 Ticket Number"
       description: "상위 작업의 Ticket Number를 기입해주세요"
-      placeholder: "SWIM-00"
+      placeholder: "ST-00"
     validations:
       required: true
 
@@ -24,7 +24,7 @@ body:
     id: branchPrefix
     attributes:
       label: "브랜치 전략(GitFlow)"
-      description: "기능 개발의 경우 feat 이라고 작성하면 됩니다."
+      description: "기능 개발의 경우 feature 이라고 작성하면 됩니다."
     validations:
       required: true
 

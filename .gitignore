@@ -1,13 +1,17 @@
 HELP.md
 .gradle
+
 **/src/main/resources/*.properties
 !application.properties
+
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
 .env
+**/src/main/resources/
+!**/src/main/resources/application.properties
 
 ### STS ###
 .apt_generated
@@ -39,3 +43,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### 삭제할 것
+.md
