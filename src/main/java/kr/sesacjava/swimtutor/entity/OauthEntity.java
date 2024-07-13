@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class UserEntity {
+public class OauthEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

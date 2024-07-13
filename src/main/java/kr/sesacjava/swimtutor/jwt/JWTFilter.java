@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import kr.sesacjava.swimtutor.dto.CustomOAuth2User;
-import kr.sesacjava.swimtutor.dto.UserDTO;
+import kr.sesacjava.swimtutor.dto.OauthDTO;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,11 +57,11 @@ public class JWTFilter extends OncePerRequestFilter {
     String username = jwtUtil.getUsername(token);
     String role = jwtUtil.getRole(token);
 
-    UserDTO userDTO = new UserDTO();
-    userDTO.setUsername(username);
-    userDTO.setRole(role);
+    OauthDTO oauthDTO = new OauthDTO();
+    oauthDTO.setUsername(username);
+    oauthDTO.setRole(role);
 
-    CustomOAuth2User customOAuth2Uer = new CustomOAuth2User(userDTO);
+    CustomOAuth2User customOAuth2Uer = new CustomOAuth2User(oauthDTO);
 
     Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2Uer, null, customOAuth2Uer.getAuthorities());
     SecurityContextHolder.getContext().setAuthentication(authToken);

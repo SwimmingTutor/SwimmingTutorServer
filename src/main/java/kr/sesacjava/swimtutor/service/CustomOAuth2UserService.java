@@ -3,9 +3,9 @@ package kr.sesacjava.swimtutor.service;
 import kr.sesacjava.swimtutor.dto.CustomOAuth2User;
 import kr.sesacjava.swimtutor.dto.GoogleResponse;
 import kr.sesacjava.swimtutor.dto.OAuth2Response;
-import kr.sesacjava.swimtutor.dto.UserDTO;
-import kr.sesacjava.swimtutor.entity.UserEntity;
-import kr.sesacjava.swimtutor.repository.UserRepository;
+import kr.sesacjava.swimtutor.dto.OauthDTO;
+import kr.sesacjava.swimtutor.entity.OauthEntity;
+import kr.sesacjava.swimtutor.repository.OauthRepository;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-  private final UserRepository userRepository;
+  private final OauthRepository oauthRepository;
 
-  public CustomOAuth2UserService(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public CustomOAuth2UserService(OauthRepository oauthRepository) {
+    this.oauthRepository = oauthRepository;
   }
 
   @Override
@@ -40,36 +40,36 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String username = oAuth2Response.getProvider() + "_" + oAuth2Response.getProviderId();
 
     // 이미 가입한 사용자인지 확인
-    UserEntity existData = userRepository.findByUsername(username);
+    OauthEntity existData = oauthRepository.findByUsername(username);
 
     if(existData==null) {
-      UserEntity userEntity = new UserEntity();
+      OauthEntity userEntity = new OauthEntity();
       userEntity.setUsername(username);
       userEntity.setEmail(oAuth2Response.getEmail());
       userEntity.setName(oAuth2Response.getName());
       userEntity.setRole("ROLE_USER");
 
-      userRepository.save(userEntity);
+      oauthRepository.save(userEntity);
 
-      UserDTO userDTO = new UserDTO();
-      userDTO.setUsername(username);
-      userDTO.setName(oAuth2Response.getName());
-      userDTO.setRole("ROLE_USER");
+      OauthDTO oauthDTO = new OauthDTO();
+      oauthDTO.setUsername(username);
+      oauthDTO.setName(oAuth2Response.getName());
+      oauthDTO.setRole("ROLE_USER");
 
-      return new CustomOAuth2User(userDTO);
+      return new CustomOAuth2User(oauthDTO);
 
     } else {
 
       existData.setEmail(oAuth2Response.getEmail());
       existData.setName(oAuth2Response.getName());
-      userRepository.save(existData);
+      oauthRepository.save(existData);
 
-      UserDTO userDTO = new UserDTO();
-      userDTO.setUsername(existData.getUsername());
-      userDTO.setName(oAuth2Response.getName());
-      userDTO.setRole(existData.getRole());
+      OauthDTO oauthDTO = new OauthDTO();
+      oauthDTO.setUsername(existData.getUsername());
+      oauthDTO.setName(oAuth2Response.getName());
+      oauthDTO.setRole(existData.getRole());
 
-      return new CustomOAuth2User(userDTO);
+      return new CustomOAuth2User(oauthDTO);
     }
   }
 }

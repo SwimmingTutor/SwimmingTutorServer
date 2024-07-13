@@ -2,17 +2,16 @@ package kr.sesacjava.swimtutor.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class CustomOAuth2User implements OAuth2User {
 
-  private final UserDTO userDTO;
+  private final OauthDTO oauthDTO;
 
-  public CustomOAuth2User(UserDTO userDTO) {
-    this.userDTO = userDTO;
+  public CustomOAuth2User(OauthDTO oauthDTO) {
+    this.oauthDTO = oauthDTO;
   }
 
   @Override
@@ -27,7 +26,7 @@ public class CustomOAuth2User implements OAuth2User {
     collection.add(new GrantedAuthority() {
       @Override
       public String getAuthority() {
-        return userDTO.getRole();
+        return oauthDTO.getRole();
       }
     });
     return collection;
@@ -35,10 +34,10 @@ public class CustomOAuth2User implements OAuth2User {
 
   @Override
   public String getName() {
-    return userDTO.getName();
+    return oauthDTO.getName();
   }
 
   public String getUsername() {
-    return userDTO.getUsername();
+    return oauthDTO.getUsername();
   }
 }
