@@ -13,7 +13,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /*
          * TODO: 삭제 필요!:
          *  api요청 테스트 때문에 설정해둠.
          * */
@@ -21,7 +20,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((registry) ->
-                        registry.requestMatchers("/")
+                        registry.requestMatchers("/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .build();
