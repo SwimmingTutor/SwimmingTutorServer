@@ -88,13 +88,12 @@ public class NewRoutineImpl implements NewRoutineService {
         List<Training> selectedTrainings = new ArrayList<>();
 
         // 목표거리가 0이 될 때까지 훈련을 선택
-        /* 목표거리가 0이 되는 훈련이 없을 수 있음 -> 50m 단위로 다양한 훈련 데이터 생성 필요 */
         for (int d = sessionTargetDistance; d > 0; ) {
             Random rand = new Random();
             int index = 1 + rand.nextInt(availableTrainings.size() - 1);
 
+            // TODO: 세션별 난이도 고려하는 로직 구현
             // 선택 가능한 훈련 중에서 랜덤으로 선택
-            /* 세션별 난이도 고려하는 로직으로 변경 필요 */
             Training selectedTraining = availableTrainings.get(index);
 
             // 선택된 훈련을 세션에 추가하고, 목표거리를 갱신
