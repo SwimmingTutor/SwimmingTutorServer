@@ -9,12 +9,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class RoutineId implements Serializable {
-    private int routineNo;
+    private Integer routineNo;
     private String oauthLoginId;
     private String oauthLoginPlatform;
 
     @Builder
-    public RoutineId(int routineNo, String oauthLoginId, String oauthLoginPlatform) {
+    public RoutineId(Integer routineNo, String oauthLoginId, String oauthLoginPlatform) {
         this.routineNo = routineNo;
         this.oauthLoginId = oauthLoginId;
         this.oauthLoginPlatform = oauthLoginPlatform;

@@ -48,7 +48,7 @@
 ### Controller
 
 - METHOD: `GET`
-- URI: `/routine/{routineId}`
+- URI: `/routine/{routineNo}`
 
 ### DTO
 

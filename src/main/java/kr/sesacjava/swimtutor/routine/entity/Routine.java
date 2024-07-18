@@ -1,6 +1,7 @@
 package kr.sesacjava.swimtutor.routine.entity;
 
 import jakarta.persistence.*;
+import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,9 +16,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Routine {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "routine_id")
-    private Integer routineId;
+    @Column(name = "routine_no")
+    private Integer routineNo;
 
     @Id
     @Column(name = "oauth_login_id")

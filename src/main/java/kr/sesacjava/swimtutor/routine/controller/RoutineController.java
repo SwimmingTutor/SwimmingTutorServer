@@ -37,7 +37,7 @@ public class RoutineController {
 
     // 루틴 상세
     @GetMapping("/{routineNo}")
-    public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable int routineNo, String oauthLoginId, String oauthLoginPlatform) {
+    public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable Integer routineNo, String oauthLoginId, String oauthLoginPlatform) {
 //        LOG.info("routineDetailService getRoutineDetail 호출");
         RoutineId routineId = new RoutineId(routineNo, oauthLoginId, oauthLoginPlatform);
         return routineImpl.getRoutineDetail(routineId);

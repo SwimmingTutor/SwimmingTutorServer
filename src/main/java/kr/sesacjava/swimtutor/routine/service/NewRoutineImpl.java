@@ -10,6 +10,8 @@ import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import kr.sesacjava.swimtutor.routine.repository.RoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingForRoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
+@Log4j2
 public class NewRoutineImpl implements NewRoutineService {
 
     private static final Logger LOG = LoggerFactory.getLogger(NewRoutineImpl.class);
@@ -143,7 +147,7 @@ public class NewRoutineImpl implements NewRoutineService {
         List<TrainingForRoutine> trainingsForRoutine = new ArrayList<>();
         for (RequestTrainingForRoutineDTO requestTrainingForRoutineDTO : requestTrainingForRoutineDTOS) {
             TrainingForRoutine trainingForRoutine = TrainingForRoutine.builder()
-                    .routineNo(routine.getRoutineId())
+                    .routineNo(routine.getRoutineNo())
                     .oauthLoginId(routine.getOauthLoginId())
                     .oauthLoginPlatform(routine.getOauthLoginPlatform())
                     .session(requestTrainingForRoutineDTO.getSession())
@@ -163,7 +167,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
         // 루틴 저장
         routineImpl.saveRoutine(requestRoutineDTO);
-        int lastRoutineNo = routineRepo.findMaxRoutineId();
+        int lastRoutineNo = routineRepo.findMaxRoutineNo();
         RoutineId routineId = RoutineId.builder()
                 .routineNo(lastRoutineNo)
                 .oauthLoginId(requestRoutineDTO.getOauthLoginId())

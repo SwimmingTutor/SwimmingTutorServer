@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TrainingForRoutineRepository extends JpaRepository<TrainingForRoutine, TrainingForRoutineId> {
-    List<TrainingForRoutine> findAllByRoutineNo(int routineNo);
+    List<TrainingForRoutine> findAllByRoutineNo(Integer routineNo);
 }
