@@ -30,8 +30,8 @@ public class Routine {
     @Column(name = "routine_name")
     private String routineName;
 
-    @Column(name = "unit_length")
-    private int unitLength;
+    @Column(name = "pool_length")
+    private int poolLength;
 
     @Column(name = "target_distance")
     private int targetDistance;
