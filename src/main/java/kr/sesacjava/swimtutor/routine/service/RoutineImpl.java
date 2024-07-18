@@ -45,7 +45,7 @@ public class RoutineImpl implements RoutineService {
         for (Routine routine : routines) {
             ResponseRoutineDTO responseRoutineDTO = ResponseRoutineDTO.builder()
                     .routineName(routine.getRoutineName())
-                    .poolLength(routine.getPoolLength())
+                    .poolLength(routine.getUnitLength())
                     .targetDistance(routine.getTargetDistance())
                     .selStrokes(routine.getSelStrokes())
                     .created(routine.getCreated())
@@ -82,7 +82,7 @@ public class RoutineImpl implements RoutineService {
         return ResponseRoutineDetailDTO.builder()
                 .routineName(routine.getRoutineName())
                 .targetDistance(routine.getTargetDistance())
-                .poolLength(routine.getPoolLength())
+                .poolLength(routine.getUnitLength())
                 .selStrokes(routine.getSelStrokes())
                 .created(routine.getCreated())
                 .updated(routine.getUpdated())
@@ -93,13 +93,13 @@ public class RoutineImpl implements RoutineService {
     // 루틴 저장
     public Routine saveRoutine(RequestRoutineDTO requestRoutineDTO) {
 //        LOG.info("saveRoutine 호출");
-        int lastRoutineNo = routineRepo.findMaxRoutineNo();
+        int lastRoutineId = routineRepo.findMaxRoutineId();
         return routineRepo.save(Routine.builder()
-                .routineNo(lastRoutineNo == 0 ? 1 : lastRoutineNo + 1)
+                .routineId(lastRoutineId == 0 ? 1 : lastRoutineId + 1)
                 .oauthLoginId(requestRoutineDTO.getOauthLoginId())
                 .oauthLoginPlatform(requestRoutineDTO.getOauthLoginPlatform())
                 .routineName(requestRoutineDTO.getRoutineName())
-                .poolLength(requestRoutineDTO.getPoolLength())
+                .unitLength(requestRoutineDTO.getPoolLength())
                 .targetDistance(requestRoutineDTO.getTargetDistance())
                 .selStrokes(requestRoutineDTO.getSelStrokes())
                 .created(LocalDateTime.now())

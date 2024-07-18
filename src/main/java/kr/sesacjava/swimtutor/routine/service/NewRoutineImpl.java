@@ -143,7 +143,7 @@ public class NewRoutineImpl implements NewRoutineService {
         List<TrainingForRoutine> trainingsForRoutine = new ArrayList<>();
         for (RequestTrainingForRoutineDTO requestTrainingForRoutineDTO : requestTrainingForRoutineDTOS) {
             TrainingForRoutine trainingForRoutine = TrainingForRoutine.builder()
-                    .routineNo(routine.getRoutineNo())
+                    .routineNo(routine.getRoutineId())
                     .oauthLoginId(routine.getOauthLoginId())
                     .oauthLoginPlatform(routine.getOauthLoginPlatform())
                     .session(requestTrainingForRoutineDTO.getSession())
@@ -163,7 +163,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
         // 루틴 저장
         routineImpl.saveRoutine(requestRoutineDTO);
-        int lastRoutineNo = routineRepo.findMaxRoutineNo();
+        int lastRoutineNo = routineRepo.findMaxRoutineId();
         RoutineId routineId = RoutineId.builder()
                 .routineNo(lastRoutineNo)
                 .oauthLoginId(requestRoutineDTO.getOauthLoginId())

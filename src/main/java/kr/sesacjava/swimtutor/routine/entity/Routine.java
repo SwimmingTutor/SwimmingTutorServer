@@ -1,7 +1,6 @@
 package kr.sesacjava.swimtutor.routine.entity;
 
 import jakarta.persistence.*;
-import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -10,27 +9,29 @@ import java.time.LocalDateTime;
 @Table(name = "routine")
 @IdClass(RoutineId.class)
 @Getter
-@Setter
+@Builder
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Routine {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "routine_id")
-    private int routineNo;
+    private Integer routineId;
 
     @Id
     @Column(name = "oauth_login_id")
     private String oauthLoginId;
 
     @Id
-    @Column(name = "oauth_login_platform", length = 32)
+    @Column(name = "oauth_login_platform")
     private String oauthLoginPlatform;
 
-    @Column(name = "routine_name", length = 20)
+    @Column(name = "routine_name")
     private String routineName;
 
-    @Column(name = "pool_length")
-    private int poolLength;
+    @Column(name = "unit_length")
+    private int unitLength;
 
     @Column(name = "target_distance")
     private int targetDistance;
@@ -43,17 +44,4 @@ public class Routine {
 
     @Column(name = "updated")
     private LocalDateTime updated;
-
-    @Builder
-    public Routine(int routineNo, String oauthLoginId, String oauthLoginPlatform, String routineName, int poolLength, int targetDistance, String selStrokes, LocalDateTime created, LocalDateTime updated) {
-        this.routineNo = routineNo;
-        this.oauthLoginId = oauthLoginId;
-        this.oauthLoginPlatform = oauthLoginPlatform;
-        this.routineName = routineName;
-        this.poolLength = poolLength;
-        this.targetDistance = targetDistance;
-        this.selStrokes = selStrokes;
-        this.created = created;
-        this.updated = updated;
-    }
 }
