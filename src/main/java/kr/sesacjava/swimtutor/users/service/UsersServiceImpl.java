@@ -4,7 +4,9 @@ package kr.sesacjava.swimtutor.users.service;
 import kr.sesacjava.swimtutor.common.exception.DuplicateKeyException;
 import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import kr.sesacjava.swimtutor.users.dto.UsersDTO;
+import kr.sesacjava.swimtutor.users.dto.UsersProfileDTO;
 import kr.sesacjava.swimtutor.users.entity.Users;
+import kr.sesacjava.swimtutor.users.entity.UsersId;
 import kr.sesacjava.swimtutor.users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -37,6 +39,21 @@ public class UsersServiceImpl implements UsersService {
                 .build();
 
         usersRepository.save(users);
+    }
+
+
+    @Override
+    public UsersProfileDTO findProfile(UserInfo userInfo) {
+        UsersId usersId = new UsersId(userInfo.getEmail(), userInfo.getPlatform());
+        Users users = usersRepository.findById(usersId).orElseThrow();
+
+        return UsersProfileDTO.builder()
+                .name(users.getName())
+                .gender(users.getGender())
+                .birth(users.getBirth())
+                .height(users.getHeight())
+                .weight(users.getWeight())
+                .build();
     }
 
 
