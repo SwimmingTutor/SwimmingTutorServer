@@ -56,11 +56,6 @@ public class SecurityConfig {
         // HTTP Basic 인증 방식 disable
         http.httpBasic(AbstractHttpConfigurer::disable);
 
-        //경로별 인가 작업
-        http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/**").permitAll()
-                .anyRequest().authenticated());
-
         //세션 설정 : STATELESS
         http.sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -79,7 +74,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomSocialLoginSuccessHandler(jwtUtil, passwordEncoder());
+        return new CustomSocialLoginSuccessHandler(jwtUtil);
     }
 
     @Bean
@@ -98,25 +93,4 @@ public class SecurityConfig {
     private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil) {
         return new TokenCheckFilter(jwtUtil);
     }
-
-    //        http
-//                .cors(corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
-//
-//                    @Override
-//                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-//
-//                        CorsConfiguration configuration = new CorsConfiguration();
-//
-//                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-//                        configuration.setAllowedMethods(Collections.singletonList("*"));
-//                        configuration.setAllowCredentials(true);
-//                        configuration.setAllowedHeaders(Collections.singletonList("*"));
-//                        configuration.setMaxAge(3600L);
-//
-//                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-//                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
-//
-//                        return configuration;
-//                    }
-//                }));
 }
