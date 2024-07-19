@@ -1,10 +1,8 @@
 package kr.sesacjava.swimtutor.routine.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,14 +10,14 @@ import java.time.LocalDateTime;
 @Table(name = "routine")
 @IdClass(RoutineId.class)
 @Getter
+@Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Routine {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "routine_id")
-    private Integer routineId;
+    @Column(name = "routine_no")
+    private Integer routineNo;
 
     @Id
     @Column(name = "oauth_login_id")
@@ -32,8 +30,8 @@ public class Routine {
     @Column(name = "routine_name")
     private String routineName;
 
-    @Column(name = "unit_length")
-    private int unitLength;
+    @Column(name = "pool_length")
+    private int poolLength;
 
     @Column(name = "target_distance")
     private int targetDistance;

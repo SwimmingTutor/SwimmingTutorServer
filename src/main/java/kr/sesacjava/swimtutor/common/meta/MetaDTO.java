@@ -1,17 +1,15 @@
 package kr.sesacjava.swimtutor.common.meta;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
-@Setter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
 public class MetaDTO {
     private String section;
     private String item;
     private String value;
     private String description;
-//    private LocalDateTime created;
-//    private LocalDateTime updated;
 }

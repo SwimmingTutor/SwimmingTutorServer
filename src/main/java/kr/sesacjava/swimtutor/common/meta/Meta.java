@@ -1,7 +1,7 @@
 package kr.sesacjava.swimtutor.common.meta;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @IdClass(MetaId.class)
 @Getter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
 public class Meta {
     @Id
@@ -36,4 +35,14 @@ public class Meta {
 
     @Column(name = "updated")
     private LocalDateTime updated;
+
+    @Builder
+    public Meta(String section, String item, String value, String description, LocalDateTime created, LocalDateTime updated) {
+        this.section = section;
+        this.item = item;
+        this.value = value;
+        this.description = description;
+        this.created = created;
+        this.updated = updated;
+    }
 }
