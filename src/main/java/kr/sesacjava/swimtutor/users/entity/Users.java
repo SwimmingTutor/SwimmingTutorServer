@@ -1,22 +1,25 @@
 package kr.sesacjava.swimtutor.users.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import kr.sesacjava.swimtutor.common.entity.BaseEntity;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user",
+        uniqueConstraints = {@UniqueConstraint(
+                name = "UniqueName",
+                columnNames = {"name"}
+        )}
+)
 @IdClass(UsersId.class)
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+@Builder
+public class Users extends BaseEntity {
     @Id
     @Column(name = "oauth_login_id")
     private String oauthLoginId;
@@ -35,10 +38,10 @@ public class Users {
     private LocalDate birth;
 
     @Column(name = "height")
-    private Float height;
+    private Double height;
 
     @Column(name = "weight")
-    private Float weight;
+    private Double weight;
 
     @Column(name = "preference")
     private String preference;
@@ -46,9 +49,4 @@ public class Users {
     @Column(name = "goal")
     private String goal;
 
-    @Column(name = "created")
-    private LocalDateTime created;
-
-    @Column(name = "updated")
-    private LocalDateTime updated;
 }

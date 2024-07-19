@@ -10,13 +10,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UsersDTO {
+public class UsersProfileDTO {
 
     private String name;
     private String gender;
     private LocalDate birth;
     private Double height;
     private Double weight;
-    private String preference;
-    private String goal;
 }
