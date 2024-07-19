@@ -4,6 +4,7 @@ package kr.sesacjava.swimtutor.users.controller;
 import kr.sesacjava.swimtutor.security.CurrentUser;
 import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import kr.sesacjava.swimtutor.users.dto.UsersDTO;
+import kr.sesacjava.swimtutor.users.dto.UsersExperienceDTO;
 import kr.sesacjava.swimtutor.users.dto.UsersProfileDTO;
 import kr.sesacjava.swimtutor.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,8 @@ public class UsersController {
         return usersService.findProfile(userInfo);
     }
 
-
+    @GetMapping("/experience")
+    public UsersExperienceDTO getUserExperience(@CurrentUser UserInfo userInfo) {
+        return usersService.findExperience(userInfo);
+    }
 }

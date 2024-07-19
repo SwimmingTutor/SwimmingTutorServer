@@ -4,6 +4,7 @@ package kr.sesacjava.swimtutor.users.service;
 import kr.sesacjava.swimtutor.common.exception.DuplicateKeyException;
 import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import kr.sesacjava.swimtutor.users.dto.UsersDTO;
+import kr.sesacjava.swimtutor.users.dto.UsersExperienceDTO;
 import kr.sesacjava.swimtutor.users.dto.UsersProfileDTO;
 import kr.sesacjava.swimtutor.users.entity.Users;
 import kr.sesacjava.swimtutor.users.entity.UsersId;
@@ -41,7 +42,6 @@ public class UsersServiceImpl implements UsersService {
         usersRepository.save(users);
     }
 
-
     @Override
     public UsersProfileDTO findProfile(UserInfo userInfo) {
         UsersId usersId = new UsersId(userInfo.getEmail(), userInfo.getPlatform());
@@ -56,5 +56,15 @@ public class UsersServiceImpl implements UsersService {
                 .build();
     }
 
+    @Override
+    public UsersExperienceDTO findExperience(UserInfo userInfo) {
+        UsersId usersId = new UsersId(userInfo.getEmail(), userInfo.getPlatform());
+        Users users = usersRepository.findById(usersId).orElseThrow();
 
+        return UsersExperienceDTO.builder()
+                .oauthLoginPlatform(users.getOauthLoginPlatform())
+                .preference(users.getPreference())
+                .goal(users.getGoal())
+                .build();
+    }
 }
