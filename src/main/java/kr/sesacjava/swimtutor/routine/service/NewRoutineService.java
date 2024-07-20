@@ -2,7 +2,6 @@ package kr.sesacjava.swimtutor.routine.service;
 
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.RequestTrainingForRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
 import kr.sesacjava.swimtutor.routine.entity.TrainingForRoutine;
@@ -27,5 +26,5 @@ public interface NewRoutineService {
     List<TrainingForRoutine> saveTrainingsForRoutine(Routine routine, List<RequestTrainingForRoutineDTO> requestTrainingForRoutineDTOS);
 
     // 새 루틴 생성 및 저장
-    ResponseRoutineDetailDTO saveNewRoutine(RequestRoutineDTO requestRoutineDTO);
+    void saveNewRoutine(RequestRoutineDTO requestRoutineDTO);
 }

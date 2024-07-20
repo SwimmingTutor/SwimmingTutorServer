@@ -5,24 +5,17 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 @ToString
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ResponseRoutineDTO {
     // Routine
+    private Integer routineNo;
     private String routineName;
-    private int poolLength;
-    private int targetDistance;
+    private Integer poolLength;
+    private Integer targetDistance;
     private String selStrokes;
     private LocalDateTime created;
     private LocalDateTime updated;
-
-    @Builder
-    public ResponseRoutineDTO(String routineName, int poolLength, int targetDistance, String selStrokes, LocalDateTime created, LocalDateTime updated) {
-        this.routineName = routineName;
-        this.poolLength = poolLength;
-        this.targetDistance = targetDistance;
-        this.selStrokes = selStrokes;
-        this.created = created;
-        this.updated = updated;
-    }
 }

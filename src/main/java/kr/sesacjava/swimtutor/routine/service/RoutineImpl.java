@@ -3,7 +3,6 @@ package kr.sesacjava.swimtutor.routine.service;
 import jakarta.transaction.Transactional;
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseTrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
@@ -48,6 +47,7 @@ public class RoutineImpl implements RoutineService {
         List<ResponseRoutineDTO> responseRoutineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
             ResponseRoutineDTO responseRoutineDTO = ResponseRoutineDTO.builder()
+                    .routineNo(routine.getRoutineNo())
                     .routineName(routine.getRoutineName())
                     .poolLength(routine.getPoolLength())
                     .targetDistance(routine.getTargetDistance())
@@ -62,9 +62,8 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 상세
     @Transactional
-    public ResponseRoutineDetailDTO getRoutineDetail(RoutineId routineId) {
+    public List<ResponseTrainingForRoutineDTO> getRoutineDetail(RoutineId routineId) {
 //        LOG.info("getRoutineDetail 호출");
-        ResponseRoutineDetailDTO responseRoutineDetailDTO = null;
         List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS = new ArrayList<>();
 
         // 루틴 정보
@@ -76,6 +75,7 @@ public class RoutineImpl implements RoutineService {
         for (TrainingForRoutine trainingForRoutine : trainingsForRoutine) {
             Training training = trainingRepo.getReferenceById(trainingForRoutine.getTrainingId());
             ResponseTrainingForRoutineDTO responseTrainingForRoutineDTO = ResponseTrainingForRoutineDTO.builder()
+                    .trainingId(training.getTrainingId())
                     .session(trainingForRoutine.getSession())
                     .strokeName(training.getStrokeName())
                     .distance(training.getDistance())
@@ -83,15 +83,16 @@ public class RoutineImpl implements RoutineService {
                     .build();
             responseTrainingForRoutineDTOS.add(responseTrainingForRoutineDTO);
         }
-        return ResponseRoutineDetailDTO.builder()
-                .routineName(routine.getRoutineName())
-                .targetDistance(routine.getTargetDistance())
-                .poolLength(routine.getPoolLength())
-                .selStrokes(routine.getSelStrokes())
-                .created(routine.getCreated())
-                .updated(routine.getUpdated())
-                .responseTrainingForRoutineDTOS(responseTrainingForRoutineDTOS)
-                .build();
+        return responseTrainingForRoutineDTOS;
+//        return ResponseRoutineDetailDTO.builder()
+//                .routineName(routine.getRoutineName())
+//                .targetDistance(routine.getTargetDistance())
+//                .poolLength(routine.getPoolLength())
+//                .selStrokes(routine.getSelStrokes())
+//                .created(routine.getCreated())
+//                .updated(routine.getUpdated())
+//                .responseTrainingForRoutineDTOS(responseTrainingForRoutineDTOS)
+//                .build();
     }
 
     // 루틴 저장

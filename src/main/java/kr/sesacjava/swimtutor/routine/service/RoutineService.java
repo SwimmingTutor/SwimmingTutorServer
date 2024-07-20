@@ -2,7 +2,7 @@ package kr.sesacjava.swimtutor.routine.service;
 
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
+import kr.sesacjava.swimtutor.routine.dto.ResponseTrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 
@@ -14,7 +14,7 @@ public interface RoutineService {
     List<ResponseRoutineDTO> getRoutines();
 
     // 루틴 상세
-    ResponseRoutineDetailDTO getRoutineDetail(RoutineId routineId);
+    List<ResponseTrainingForRoutineDTO> getRoutineDetail(RoutineId routineId);
 
     // 루틴 저장
     Routine saveRoutine(RequestRoutineDTO requestRoutineDTO);

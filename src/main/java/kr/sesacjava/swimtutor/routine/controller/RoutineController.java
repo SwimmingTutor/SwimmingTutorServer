@@ -2,7 +2,7 @@ package kr.sesacjava.swimtutor.routine.controller;
 
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
+import kr.sesacjava.swimtutor.routine.dto.ResponseTrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import kr.sesacjava.swimtutor.routine.service.NewRoutineImpl;
 import kr.sesacjava.swimtutor.routine.service.RoutineImpl;
@@ -37,7 +37,7 @@ public class RoutineController {
 
     // 루틴 상세
     @GetMapping("/{routineNo}")
-    public ResponseRoutineDetailDTO getRoutineDetail(@PathVariable Integer routineNo, String oauthLoginId, String oauthLoginPlatform) {
+    public List<ResponseTrainingForRoutineDTO> getRoutineDetail(@PathVariable Integer routineNo, String oauthLoginId, String oauthLoginPlatform) {
 //        LOG.info("routineDetailService getRoutineDetail 호출");
         RoutineId routineId = new RoutineId(routineNo, oauthLoginId, oauthLoginPlatform);
         return routineImpl.getRoutineDetail(routineId);

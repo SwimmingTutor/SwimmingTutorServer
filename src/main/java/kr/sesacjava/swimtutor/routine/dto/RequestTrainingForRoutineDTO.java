@@ -3,7 +3,9 @@ package kr.sesacjava.swimtutor.routine.dto;
 import lombok.*;
 
 @Getter
+@Builder
 @ToString
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RequestTrainingForRoutineDTO {
     // TrainingForRoutine
@@ -12,15 +14,6 @@ public class RequestTrainingForRoutineDTO {
     // Training
     private String trainingId;
     private String strokeName;
-    private int distance;
-    private int sets;
-
-    @Builder
-    public RequestTrainingForRoutineDTO(String session, String trainingId, String strokeName, int distance, int sets) {
-        this.session = session;
-        this.trainingId = trainingId;
-        this.strokeName = strokeName;
-        this.distance = distance;
-        this.sets = sets;
-    }
+    private Integer distance;
+    private Integer sets;
 }
