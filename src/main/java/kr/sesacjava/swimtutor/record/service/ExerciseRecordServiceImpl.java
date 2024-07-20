@@ -1,9 +1,7 @@
 package kr.sesacjava.swimtutor.record.service;
 
-import kr.sesacjava.swimtutor.common.exception.DuplicateKeyException;
 import kr.sesacjava.swimtutor.record.dto.ExerciseRecordDTO;
 import kr.sesacjava.swimtutor.record.entity.ExerciseRecord;
-import kr.sesacjava.swimtutor.record.entity.ExerciseRecordId;
 import kr.sesacjava.swimtutor.record.entity.RecordTime;
 import kr.sesacjava.swimtutor.record.entity.RecordTimeId;
 import kr.sesacjava.swimtutor.record.repository.ExerciseRecordRepository;
@@ -24,23 +22,19 @@ public class ExerciseRecordServiceImpl implements ExerciseRecordService {
     private final RecordTimeRepository recordTimeRepository;
 
     @Override
-    public void register(ExerciseRecordDTO exerciseRecordDTO) {
-        // TODO: oauthLoginId, oauthLoginPlatform 수정 필요
-        boolean exists = recordRepository.existsById(
-                ExerciseRecordId.builder()
-                        .category(exerciseRecordDTO.getCategory())
-                        .startTime(exerciseRecordDTO.getStartTime())
-                        .oauthLoginId("abcd")
+    public void register(List<ExerciseRecordDTO> dataDTO) {
+        List<ExerciseRecord> list = dataDTO.stream().map(data ->
+                ExerciseRecord.builder()
+                        .oauthLoginId("")
                         .oauthLoginPlatform("google")
-                        .build());
+                        .category(data.getCategory())
+                        .value(data.getValue())
+                        .startTime(data.getStartTime())
+                        .stopTime(data.getStopTime())
+                        .build()
+        ).toList();
 
-        if (exists) {
-            throw new DuplicateKeyException("아이디 중복");
-        }
-
-        ExerciseRecord record = dtoToEntity(exerciseRecordDTO);
-
-        recordRepository.save(record);
+        recordRepository.saveAll(list);
     }
 
     @Override

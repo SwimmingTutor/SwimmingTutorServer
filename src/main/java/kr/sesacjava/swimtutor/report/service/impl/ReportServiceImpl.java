@@ -1,8 +1,9 @@
 package kr.sesacjava.swimtutor.report.service.impl;
 
-import kr.sesacjava.swimtutor.records.entity.Record;
-import kr.sesacjava.swimtutor.report.repository.ReportRepository;
+import kr.sesacjava.swimtutor.record.entity.ExerciseRecord;
+import kr.sesacjava.swimtutor.record.repository.ExerciseRecordRepository;
 import kr.sesacjava.swimtutor.report.service.ReportService;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
-    private final ReportRepository reportRepository;
+    private final ExerciseRecordRepository recordRepository;
 
     @Override
-    public List<Record> getRecordsByOauthInfo(String oauthLoginId, String oauthLoginPlatform) {
-        return reportRepository.findByRecordId_OauthLoginIdAndRecordId_OauthLoginPlatform(oauthLoginId, oauthLoginPlatform);
+    public List<ExerciseRecord> getRecordsByOauthInfo(UserInfo userInfo) {
+        List<ExerciseRecord> list = recordRepository.findByEmailAndPlatform(userInfo.getEmail(), userInfo.getPlatform());
+        return list;
     }
 }
