@@ -19,7 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,25 +27,12 @@ import java.util.Map;
 public class TokenCheckFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
 
-    // 필터 SKIP 경로, 메서드 정의
-    private final List<String> excludedPaths = Arrays.asList("/record/");
-    private final List<String> excludedMethods = Arrays.asList("POST");
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         log.info("Token Check Filter...");
         log.info("JWTUtil" + jwtUtil);
-
-        String path = request.getRequestURI();
-        String method = request.getMethod();
-
-        // 제외할 경로와 메서드 확인
-        if (skipFilter(path, method)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         try {
             Map<String, Object> claim = validateAccessToken(request);
@@ -83,11 +69,6 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             log.error("ExpiredJwtException-------------");
             throw new AccessTokenException((AccessTokenException.TOKEN_ERROR.EXPIRED));
         }
-    }
-
-    private boolean skipFilter(String path, String method) {
-        return excludedPaths.stream().anyMatch(path::startsWith) ||
-                excludedMethods.contains(method);
     }
 
     private void saveClaimToAuthentication(Map<String, Object> claim, HttpServletRequest request) {
