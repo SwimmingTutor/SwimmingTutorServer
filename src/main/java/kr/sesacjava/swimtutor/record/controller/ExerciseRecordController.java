@@ -1,6 +1,7 @@
 package kr.sesacjava.swimtutor.record.controller;
 
 import kr.sesacjava.swimtutor.record.dto.ExerciseRecordDTO;
+import kr.sesacjava.swimtutor.record.dto.RecordDataDTO;
 import kr.sesacjava.swimtutor.record.service.ExerciseRecordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,9 +18,9 @@ public class ExerciseRecordController {
     private final ExerciseRecordService exerciseRecordService;
 
     @PostMapping("/")
-    public void postExerciseRecord(@RequestBody ExerciseRecordDTO exerciseRecordDTO) {
+    public void postExerciseRecord(@RequestBody RecordDataDTO dataDTO) {
         log.info("register");
-        exerciseRecordService.register(exerciseRecordDTO);
+        exerciseRecordService.register(dataDTO.getData());
     }
 
 //    @PostMapping("/")
