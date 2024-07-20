@@ -24,6 +24,6 @@ public class ResponseRoutineDetailDTO {
 
     // ResponseTrainingForRoutine
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "routine_id")
+    @JoinColumn(name = "routine_no")
     private List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS;
 }
