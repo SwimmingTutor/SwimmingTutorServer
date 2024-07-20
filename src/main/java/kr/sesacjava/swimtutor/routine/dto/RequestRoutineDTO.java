@@ -6,7 +6,9 @@ import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import lombok.*;
 
 @Getter
+@Builder
 @ToString
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RequestRoutineDTO {
     // RoutineId
@@ -18,17 +20,7 @@ public class RequestRoutineDTO {
 
     // Routine
     private String routineName;
-    private int poolLength;
-    private int targetDistance;
+    private Integer poolLength;
+    private Integer targetDistance;
     private String selStrokes;
-
-    @Builder
-    public RequestRoutineDTO(String oauthLoginId, String oauthLoginPlatform, String routineName, int poolLength, int targetDistance, String selStrokes) {
-        this.oauthLoginId = oauthLoginId;
-        this.oauthLoginPlatform = oauthLoginPlatform;
-        this.routineName = routineName;
-        this.poolLength = poolLength;
-        this.targetDistance = targetDistance;
-        this.selStrokes = selStrokes;
-    }
 }

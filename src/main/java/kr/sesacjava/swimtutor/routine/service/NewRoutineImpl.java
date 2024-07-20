@@ -2,7 +2,6 @@ package kr.sesacjava.swimtutor.routine.service;
 
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.RequestTrainingForRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
 import kr.sesacjava.swimtutor.routine.entity.TrainingForRoutine;
@@ -158,7 +157,7 @@ public class NewRoutineImpl implements NewRoutineService {
     }
 
     // 새 루틴 생성 및 저장
-    public ResponseRoutineDetailDTO saveNewRoutine(RequestRoutineDTO requestRoutineDTO) {
+    public void saveNewRoutine(RequestRoutineDTO requestRoutineDTO) {
 //        LOG.info("saveNewRoutine 호출");
 
         int targetDistance = requestRoutineDTO.getTargetDistance();
@@ -180,7 +179,5 @@ public class NewRoutineImpl implements NewRoutineService {
 
         // 선택된 훈련을 DB에 저장
         saveTrainingsForRoutine(routine, requestTrainingForRoutineDTOS);
-
-        return routineImpl.getRoutineDetail(routineId);
     }
 }
