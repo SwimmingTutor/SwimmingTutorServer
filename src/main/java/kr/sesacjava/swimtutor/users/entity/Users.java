@@ -7,7 +7,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "user",
+@Table(name = "users",
         uniqueConstraints = {@UniqueConstraint(
                 name = "UniqueName",
                 columnNames = {"name"}
