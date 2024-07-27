@@ -7,6 +7,7 @@ import kr.sesacjava.swimtutor.leveltest.dto.LevelLogResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.entity.LevelLog;
 import kr.sesacjava.swimtutor.leveltest.repository.LevelClassificationRepository;
 import kr.sesacjava.swimtutor.leveltest.repository.LevelLogRepository;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class LevelServiceImpl implements LevelService {
     private final RequestLogRepository requestLogRepository;
 
     @Override
-    public void registerLevelLog(LevelLogDTO levelLogDTO) {
-        LevelLog levelLog = levelLogDtoToEntity(levelLogDTO, userLevel(levelLogDTO));
+    public void registerLevelLog(UserInfo userInfo, LevelLogDTO levelLogDTO) {
+        LevelLog levelLog = levelLogDtoToEntity(userInfo, levelLogDTO, userLevel(levelLogDTO));
 
         levelLogRepository.save(levelLog);
     }

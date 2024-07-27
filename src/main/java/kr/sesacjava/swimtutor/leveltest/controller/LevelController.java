@@ -3,6 +3,8 @@ package kr.sesacjava.swimtutor.leveltest.controller;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.service.LevelService;
+import kr.sesacjava.swimtutor.security.CurrentUser;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +19,8 @@ public class LevelController {
     private final LevelService levelService;
 
     @PostMapping("/log")
-    public void createLevelLog(@RequestBody LevelLogDTO levelLogDTO) {
-        levelService.registerLevelLog(levelLogDTO);
+    public void createLevelLog(@CurrentUser UserInfo userInfo, @RequestBody LevelLogDTO levelLogDTO) {
+        levelService.registerLevelLog(userInfo, levelLogDTO);
     }
 
     @GetMapping("/log")

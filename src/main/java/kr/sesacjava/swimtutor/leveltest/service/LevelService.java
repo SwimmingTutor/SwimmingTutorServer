@@ -3,11 +3,12 @@ package kr.sesacjava.swimtutor.leveltest.service;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.entity.LevelLog;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 
 import java.util.List;
 
 public interface LevelService {
-    public void registerLevelLog(LevelLogDTO levelLogDTO);
+    public void registerLevelLog(UserInfo userInfo, LevelLogDTO levelLogDTO);
 
     public List<LevelLogResponseDTO> getAllLevelLog();
 
@@ -17,12 +18,12 @@ public interface LevelService {
 
     public void remove(Long id);
 
-    default LevelLog levelLogDtoToEntity(LevelLogDTO levelLogDTO, String userLevel) {
+    default LevelLog levelLogDtoToEntity(UserInfo userInfo, LevelLogDTO levelLogDTO, String userLevel) {
         LevelLog levelLog = LevelLog.builder()
                 .userLevel(userLevel)
                 .lcTrainingName(levelLogDTO.getStyle())
-                .oauthLoginId("user1@gmail.com")
-                .oauthLoginPlatform("google")
+                .oauthLoginId(userInfo.getEmail())
+                .oauthLoginPlatform(userInfo.getPlatform())
                 .build();
 
         return levelLog;
