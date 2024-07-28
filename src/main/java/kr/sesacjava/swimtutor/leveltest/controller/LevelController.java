@@ -18,7 +18,7 @@ import java.util.List;
 public class LevelController {
     private final LevelService levelService;
 
-    // TODO: 현재 수영 레벨을 조회하는 API 구현
+    // 현재 수영 레벨을 조회
     @GetMapping
     public List<LevelResponseDTO> getCurrentLevel(@CurrentUser UserInfo userInfo) {
         return levelService.getCurrentLevel(userInfo);
