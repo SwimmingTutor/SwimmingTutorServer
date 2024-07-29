@@ -1,7 +1,7 @@
 package kr.sesacjava.swimtutor.leveltest.controller;
 
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogDTO;
-import kr.sesacjava.swimtutor.leveltest.dto.LevelLogResponseDTO;
+import kr.sesacjava.swimtutor.leveltest.dto.LevelResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.service.LevelService;
 import kr.sesacjava.swimtutor.security.CurrentUser;
 import kr.sesacjava.swimtutor.security.dto.UserInfo;
@@ -18,18 +18,24 @@ import java.util.List;
 public class LevelController {
     private final LevelService levelService;
 
+    // 현재 수영 레벨 조회
+    @GetMapping
+    public List<LevelResponseDTO> getCurrentLevel(@CurrentUser UserInfo userInfo) {
+        return levelService.getCurrentLevel(userInfo);
+    }
+
     @PostMapping("/log")
     public void createLevelLog(@CurrentUser UserInfo userInfo, @RequestBody LevelLogDTO levelLogDTO) {
         levelService.registerLevelLog(userInfo, levelLogDTO);
     }
 
     @GetMapping("/log")
-    public List<LevelLogResponseDTO> getAllLevelLog() {
+    public List<LevelResponseDTO> getAllLevelLog() {
         return levelService.getAllLevelLog();
     }
 
     @GetMapping("/log/{id}")
-    public LevelLogResponseDTO getOneLevelLog(@PathVariable Long id) {
+    public LevelResponseDTO getOneLevelLog(@PathVariable Long id) {
         return levelService.getLevelLog(id);
     }
 

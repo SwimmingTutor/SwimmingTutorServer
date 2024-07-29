@@ -1,16 +1,13 @@
 package kr.sesacjava.swimtutor.leveltest.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LevelLogResponseDTO {
+public class LevelResponseDTO {
     private String lcTrainingName;
     private String userLevel;
-
 }
