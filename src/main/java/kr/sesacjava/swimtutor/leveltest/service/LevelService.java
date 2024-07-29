@@ -10,7 +10,7 @@ import java.util.List;
 public interface LevelService {
     public void registerLevelLog(UserInfo userInfo, LevelLogDTO levelLogDTO);
 
-    // 현재 수영 레벨을 조회
+    // 현재 수영 레벨 조회
     public List<LevelResponseDTO> getCurrentLevel(UserInfo userInfo);
 
     public List<LevelResponseDTO> getAllLevelLog();
