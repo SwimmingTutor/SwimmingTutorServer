@@ -1,6 +1,7 @@
 package kr.sesacjava.swimtutor.users.controller;
 
 
+import jakarta.validation.Valid;
 import kr.sesacjava.swimtutor.security.CurrentUser;
 import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import kr.sesacjava.swimtutor.users.dto.UsersDTO;
@@ -19,7 +20,9 @@ public class UsersController {
     private final UsersService usersService;
 
     @PostMapping
-    public void createUser(@RequestBody UsersDTO usersDTO, @CurrentUser UserInfo userInfo) {
+    public void createUser(@Valid @RequestBody UsersDTO usersDTO,
+                           @CurrentUser UserInfo userInfo) {
+
         usersService.register(usersDTO, userInfo);
     }
 
