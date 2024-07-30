@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ResponseRoutineDetailDTO {
+public class RoutineDetailDTO {
     // Routine
     private String routineName;
     private Integer poolLength;

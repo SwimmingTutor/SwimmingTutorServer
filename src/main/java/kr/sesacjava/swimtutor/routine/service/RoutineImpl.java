@@ -3,13 +3,14 @@ package kr.sesacjava.swimtutor.routine.service;
 import jakarta.transaction.Transactional;
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
+import kr.sesacjava.swimtutor.routine.dto.RoutineDetailDTO;
 import kr.sesacjava.swimtutor.routine.dto.TrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
 import kr.sesacjava.swimtutor.routine.entity.TrainingForRoutine;
 import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import kr.sesacjava.swimtutor.routine.repository.RoutineRepository;
+import kr.sesacjava.swimtutor.routine.repository.RoutineSequenceUpdateRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingForRoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingRepository;
 import kr.sesacjava.swimtutor.security.CurrentUser;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,9 @@ public class RoutineImpl implements RoutineService {
     private RoutineRepository routineRepo;
     private TrainingRepository trainingRepo;
     private TrainingForRoutineRepository trainingForRoutineRepo;
+
+    @Autowired
+    private RoutineSequenceUpdateRepository routineSequenceUpdateRepo;
 
     @Autowired
     public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
@@ -82,7 +87,7 @@ public class RoutineImpl implements RoutineService {
     // 루틴 상세
     @Transactional
     @Override
-    public ResponseRoutineDetailDTO getRoutineDetail(UserInfo userInfo, Integer routineNo) {
+    public RoutineDetailDTO getRoutineDetail(UserInfo userInfo, Integer routineNo) {
 //        LOG.info("getRoutineDetail 호출");
         List<TrainingForRoutineDTO> trainingForRoutineDTOS = new ArrayList<>();
 
@@ -111,7 +116,7 @@ public class RoutineImpl implements RoutineService {
         }
         ;
 
-        ResponseRoutineDetailDTO responseRoutineDetailDTO = ResponseRoutineDetailDTO.builder()
+        RoutineDetailDTO routineDetailDTO = RoutineDetailDTO.builder()
                 .routineName(routine.getRoutineName())
                 .poolLength(routine.getPoolLength())
                 .targetDistance(routine.getTargetDistance())
@@ -121,7 +126,7 @@ public class RoutineImpl implements RoutineService {
                 .trainingData(trainingForRoutineDTOS)
                 .build();
 //        return trainingForRoutineDTOS;
-        return responseRoutineDetailDTO;
+        return routineDetailDTO;
     }
 
     // 루틴 저장
@@ -143,6 +148,25 @@ public class RoutineImpl implements RoutineService {
         );
     }
 
+    // 루틴 수정
+    @Override
+    public void updateRoutine(UserInfo userInfo, Integer routineNo, RequestRoutineDTO requestRoutineDTO) {
+//        LOG.info("RoutineImpl - updateRoutine 호출");
+        RoutineId routineId = RoutineId.builder()
+                .routineNo(routineNo)
+                .oauthLoginId(userInfo.getEmail())
+                .oauthLoginPlatform(userInfo.getPlatform())
+                .build();
+        Routine routine = routineRepo.findById(routineId).orElseThrow();
+        routine.change(
+                requestRoutineDTO.getRoutineName(),
+                requestRoutineDTO.getPoolLength(),
+                requestRoutineDTO.getTargetDistance(),
+                requestRoutineDTO.getSelStrokes()
+        );
+        routineRepo.save(routine);
+    }
+
     // 루틴 삭제
     @Override
     public Routine deleteRoutine(@CurrentUser UserInfo userInfo, Integer routineNo) {
@@ -152,8 +176,18 @@ public class RoutineImpl implements RoutineService {
                 .oauthLoginId(userInfo.getEmail())
                 .oauthLoginPlatform(userInfo.getPlatform())
                 .build();
-        Routine routine = routineRepo.findById(routineId).orElse(null);
-        routineRepo.deleteById(routineId);
+
+        // routineId로 엔티티 찾기
+        Routine routine = routineRepo.findById(routineId).orElseThrow(() ->
+                new NoSuchElementException("No routine found with routineNo: " + routineNo)
+        );
+
+        // 루틴 삭제
+        routineRepo.delete(routine);
+
+        // 프로시저 호출
+        routineSequenceUpdateRepo.processRoutineUpdateQueue();
+
         return routine;
     }
 }
