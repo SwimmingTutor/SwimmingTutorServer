@@ -1,14 +1,14 @@
 package kr.sesacjava.swimtutor.routine.service;
 
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.RequestTrainingForRoutineDTO;
+import kr.sesacjava.swimtutor.routine.dto.TrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
 import kr.sesacjava.swimtutor.routine.entity.TrainingForRoutine;
-import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import kr.sesacjava.swimtutor.routine.repository.RoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingForRoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingRepository;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -106,10 +106,10 @@ public class NewRoutineImpl implements NewRoutineService {
     }
 
     // 루틴 상세 생성
-    public List<RequestTrainingForRoutineDTO> createTrainingsForRoutine(int targetDistance, String selStrokes) {
+    public List<TrainingForRoutineDTO> createTrainingsForRoutine(int targetDistance, String selStrokes) {
 //        LOG.info("createRoutine 호출");
 
-        List<RequestTrainingForRoutineDTO> selectedTrainingsForRoutine = new ArrayList<>();
+        List<TrainingForRoutineDTO> selectedTrainingsForRoutine = new ArrayList<>();
         // 세션별 목표거리 비율
         List<Double> sessionPercentages = Arrays.asList(0.3, 0.6, 0.1);
         // 목표거리 변동률
@@ -126,7 +126,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
             // 선택된 훈련을 list에 추가
             for (Training training : selectedTrainings) {
-                RequestTrainingForRoutineDTO selectedTraining = RequestTrainingForRoutineDTO.builder()
+                TrainingForRoutineDTO selectedTraining = TrainingForRoutineDTO.builder()
                         .session(SESSIONS.get(i))
                         .trainingId(training.getTrainingId())
                         .strokeName(training.getStrokeName())
@@ -140,44 +140,49 @@ public class NewRoutineImpl implements NewRoutineService {
     }
 
     // 루틴 상세 저장
-    public List<TrainingForRoutine> saveTrainingsForRoutine(Routine routine, List<RequestTrainingForRoutineDTO> requestTrainingForRoutineDTOS) {
+    public void saveTrainingsForRoutine(Routine routine, List<TrainingForRoutineDTO> trainingForRoutineDTOS) {
 //        LOG.info("saveTrainingsForRoutine 호출");
         List<TrainingForRoutine> trainingsForRoutine = new ArrayList<>();
-        for (RequestTrainingForRoutineDTO requestTrainingForRoutineDTO : requestTrainingForRoutineDTOS) {
+        for (TrainingForRoutineDTO trainingForRoutineDTO : trainingForRoutineDTOS) {
             TrainingForRoutine trainingForRoutine = TrainingForRoutine.builder()
                     .routineNo(routine.getRoutineNo())
                     .oauthLoginId(routine.getOauthLoginId())
                     .oauthLoginPlatform(routine.getOauthLoginPlatform())
-                    .session(requestTrainingForRoutineDTO.getSession())
-                    .trainingId(requestTrainingForRoutineDTO.getTrainingId())
+                    .session(trainingForRoutineDTO.getSession())
+                    .trainingId(trainingForRoutineDTO.getTrainingId())
                     .build();
             trainingsForRoutine.add(trainingForRoutine);
         }
-        return trainingForRoutineRepo.saveAll(trainingsForRoutine);
+        trainingForRoutineRepo.saveAll(trainingsForRoutine);
     }
 
     // 새 루틴 생성 및 저장
-    public void saveNewRoutine(RequestRoutineDTO requestRoutineDTO) {
-//        LOG.info("saveNewRoutine 호출");
+    public void saveNewRoutine(UserInfo userInfo, RequestRoutineDTO requestRoutineDTO) {
+        LOG.info("saveNewRoutine 호출");
+        LOG.info("Received userInfo: {}", userInfo.toString());
 
         int targetDistance = requestRoutineDTO.getTargetDistance();
         String selStrokes = requestRoutineDTO.getSelStrokes();
 
         // 루틴 저장
-        routineImpl.saveRoutine(requestRoutineDTO);
-        int lastRoutineNo = routineRepo.findMaxRoutineNo();
-        RoutineId routineId = RoutineId.builder()
+        routineImpl.saveRoutine(userInfo, requestRoutineDTO);
+        int lastRoutineNo = routineRepo.findMaxRoutineNo() == null ? 0 : routineRepo.findMaxRoutineNo();
+        LOG.info("lastRoutineNo: {}", lastRoutineNo);
+
+        Routine routine = Routine.builder()
                 .routineNo(lastRoutineNo)
-                .oauthLoginId(requestRoutineDTO.getOauthLoginId())
-                .oauthLoginPlatform(requestRoutineDTO.getOauthLoginPlatform())
+                .oauthLoginId(userInfo.getEmail())
+                .oauthLoginPlatform(userInfo.getPlatform())
+                .routineName(requestRoutineDTO.getRoutineName())
+                .poolLength(requestRoutineDTO.getPoolLength())
+                .targetDistance(targetDistance)
+                .selStrokes(selStrokes)
                 .build();
-        Routine routine = routineRepo.getReferenceById(routineId);
-        routineRepo.save(routine);
 
         // 루틴에 포함될 훈련 목록 선택
-        List<RequestTrainingForRoutineDTO> requestTrainingForRoutineDTOS = createTrainingsForRoutine(targetDistance, selStrokes);
+        List<TrainingForRoutineDTO> trainingForRoutineDTOS = createTrainingsForRoutine(targetDistance, selStrokes);
 
         // 선택된 훈련을 DB에 저장
-        saveTrainingsForRoutine(routine, requestTrainingForRoutineDTOS);
+        saveTrainingsForRoutine(routine, trainingForRoutineDTOS);
     }
 }
