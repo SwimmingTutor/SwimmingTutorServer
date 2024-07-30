@@ -35,16 +35,15 @@ public class RoutineImpl implements RoutineService {
 
     @Autowired
     public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-//        LOG.info("RoutineImpl 생성자 호출");
+        LOG.info("RoutineImpl 생성자 호출");
         this.routineRepo = routineRepo;
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
     }
 
-    // 루틴 목록
-    public List<ResponseRoutineDTO> getRoutines() {
-//        LOG.info("getRoutines 호출");
-        List<Routine> routines = routineRepo.findAll();
+    // 루틴 조회
+    public List<ResponseRoutineDTO> getRoutines(List<Routine> routines) {
+        LOG.info("getRoutines 호출");
         List<ResponseRoutineDTO> responseRoutineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
             ResponseRoutineDTO responseRoutineDTO = ResponseRoutineDTO.builder()
@@ -61,8 +60,25 @@ public class RoutineImpl implements RoutineService {
         return responseRoutineDTOs;
     }
 
+    // 루틴 목록
+    @Override
+    public List<ResponseRoutineDTO> getAllRoutines() {
+        LOG.info("getAllRoutines 호출");
+        List<Routine> routines = routineRepo.findAll();
+        return getRoutines(routines);
+    }
+
+    // 유저별 루틴 목록 조회
+    @Override
+    public List<ResponseRoutineDTO> getSeveralRoutines(UserInfo userInfo) {
+        LOG.info("getSeveralRoutines 호출");
+        List<Routine> routines = routineRepo.findByUser(userInfo);
+        return getRoutines(routines);
+    }
+
     // 루틴 상세
     @Transactional
+    @Override
     public List<TrainingForRoutineDTO> getRoutineDetail(RoutineId routineId) {
 //        LOG.info("getRoutineDetail 호출");
         List<TrainingForRoutineDTO> trainingForRoutineDTOS = new ArrayList<>();
@@ -97,6 +113,7 @@ public class RoutineImpl implements RoutineService {
     }
 
     // 루틴 저장
+    @Override
     public Routine saveRoutine(UserInfo userInfo, RequestRoutineDTO requestRoutineDTO) {
 //        LOG.info("saveRoutine 호출");
         int lastRoutineNo = routineRepo.findMaxRoutineNo() == null ? 0 : routineRepo.findMaxRoutineNo();
@@ -115,6 +132,7 @@ public class RoutineImpl implements RoutineService {
     }
 
     // 루틴 삭제
+    @Override
     public Routine deleteRoutine(RoutineId routineId) {
 //        LOG.info("RoutineImpl - deleteRoutine 호출");
         Routine routine = routineRepo.findById(routineId).orElse(null);

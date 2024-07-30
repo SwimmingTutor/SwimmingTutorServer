@@ -20,23 +20,28 @@ import java.util.List;
 public class RoutineController {
 
     private static final Logger LOG = LoggerFactory.getLogger(RoutineController.class);
-    private NewRoutineImpl newRoutineImpl;
-    private RoutineImpl routineImpl;
+    private final NewRoutineImpl newRoutineImpl;
+    private final RoutineImpl routineImpl;
 
     @Autowired
     public RoutineController(NewRoutineImpl newRoutineImpl, RoutineImpl routineImpl) {
-//        LOG.info("RoutineController 생성자 호출");
+        LOG.info("RoutineController 생성자 호출");
         this.newRoutineImpl = newRoutineImpl;
         this.routineImpl = routineImpl;
     }
 
-    // TODO: 유저별 루틴 목록 조회
-
     // 루틴 목록
-    @GetMapping
-    public List<ResponseRoutineDTO> getRoutines() {
+    @GetMapping("/all")
+    public List<ResponseRoutineDTO> getAllRoutines() {
 //        LOG.info("routineService getRoutines 호출");
-        return routineImpl.getRoutines();
+        return routineImpl.getAllRoutines();
+    }
+
+    // 유저별 루틴 목록 조회
+    @GetMapping("/list")
+    public List<ResponseRoutineDTO> getSeveralRoutines(@CurrentUser UserInfo userInfo) {
+        LOG.info("routineService getSeveralRoutines 호출");
+        return routineImpl.getSeveralRoutines(userInfo);
     }
 
     // 루틴 상세

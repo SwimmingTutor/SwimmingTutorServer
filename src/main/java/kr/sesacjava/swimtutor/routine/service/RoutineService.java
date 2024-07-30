@@ -11,8 +11,11 @@ import java.util.List;
 
 public interface RoutineService {
 
+    // 유저별 루틴 목록 조회
+    List<ResponseRoutineDTO> getSeveralRoutines(UserInfo userInfo);
+
     // 루틴 목록
-    List<ResponseRoutineDTO> getRoutines();
+    List<ResponseRoutineDTO> getAllRoutines();
 
     // 루틴 상세
     List<TrainingForRoutineDTO> getRoutineDetail(RoutineId routineId);
