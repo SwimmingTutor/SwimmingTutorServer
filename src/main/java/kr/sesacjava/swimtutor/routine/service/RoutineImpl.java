@@ -3,7 +3,7 @@ package kr.sesacjava.swimtutor.routine.service;
 import jakarta.transaction.Transactional;
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.ResponseTrainingForRoutineDTO;
+import kr.sesacjava.swimtutor.routine.dto.TrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
 import kr.sesacjava.swimtutor.routine.entity.TrainingForRoutine;
@@ -11,6 +11,7 @@ import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import kr.sesacjava.swimtutor.routine.repository.RoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingForRoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingRepository;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -62,9 +63,9 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 상세
     @Transactional
-    public List<ResponseTrainingForRoutineDTO> getRoutineDetail(RoutineId routineId) {
+    public List<TrainingForRoutineDTO> getRoutineDetail(RoutineId routineId) {
 //        LOG.info("getRoutineDetail 호출");
-        List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS = new ArrayList<>();
+        List<TrainingForRoutineDTO> trainingForRoutineDTOS = new ArrayList<>();
 
         // 루틴 정보
         Routine routine = routineRepo.getReferenceById(routineId);
@@ -74,16 +75,16 @@ public class RoutineImpl implements RoutineService {
         // 루틴에 대한 훈련 정보를 DTO로 변환
         for (TrainingForRoutine trainingForRoutine : trainingsForRoutine) {
             Training training = trainingRepo.getReferenceById(trainingForRoutine.getTrainingId());
-            ResponseTrainingForRoutineDTO responseTrainingForRoutineDTO = ResponseTrainingForRoutineDTO.builder()
+            TrainingForRoutineDTO trainingForRoutineDTO = TrainingForRoutineDTO.builder()
                     .trainingId(training.getTrainingId())
                     .session(trainingForRoutine.getSession())
                     .strokeName(training.getStrokeName())
                     .distance(training.getDistance())
                     .sets(training.getSets())
                     .build();
-            responseTrainingForRoutineDTOS.add(responseTrainingForRoutineDTO);
+            trainingForRoutineDTOS.add(trainingForRoutineDTO);
         }
-        return responseTrainingForRoutineDTOS;
+        return trainingForRoutineDTOS;
 //        return ResponseRoutineDetailDTO.builder()
 //                .routineName(routine.getRoutineName())
 //                .targetDistance(routine.getTargetDistance())
@@ -91,18 +92,18 @@ public class RoutineImpl implements RoutineService {
 //                .selStrokes(routine.getSelStrokes())
 //                .created(routine.getCreated())
 //                .updated(routine.getUpdated())
-//                .responseTrainingForRoutineDTOS(responseTrainingForRoutineDTOS)
+//                .trainingForRoutineDTOS(trainingForRoutineDTOS)
 //                .build();
     }
 
     // 루틴 저장
-    public Routine saveRoutine(RequestRoutineDTO requestRoutineDTO) {
+    public Routine saveRoutine(UserInfo userInfo, RequestRoutineDTO requestRoutineDTO) {
 //        LOG.info("saveRoutine 호출");
-        Integer lastRoutineNo = routineRepo.findMaxRoutineNo();
+        int lastRoutineNo = routineRepo.findMaxRoutineNo() == null ? 0 : routineRepo.findMaxRoutineNo();
         return routineRepo.save(Routine.builder()
-                .routineNo(lastRoutineNo == 0 ? 1 : lastRoutineNo + 1)
-                .oauthLoginId(requestRoutineDTO.getOauthLoginId())
-                .oauthLoginPlatform(requestRoutineDTO.getOauthLoginPlatform())
+                .routineNo(lastRoutineNo + 1)
+                .oauthLoginId(userInfo.getEmail())
+                .oauthLoginPlatform(userInfo.getPlatform())
                 .routineName(requestRoutineDTO.getRoutineName())
                 .poolLength(requestRoutineDTO.getPoolLength())
                 .targetDistance(requestRoutineDTO.getTargetDistance())
