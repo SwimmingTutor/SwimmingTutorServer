@@ -34,13 +34,14 @@ public class RoutineController {
     @GetMapping("/all")
     public List<ResponseRoutineDTO> getAllRoutines() {
 //        LOG.info("routineService getRoutines 호출");
+
         return routineImpl.getAllRoutines();
     }
 
     // 유저별 루틴 목록 조회
     @GetMapping("/list")
     public List<ResponseRoutineDTO> getSeveralRoutines(@CurrentUser UserInfo userInfo) {
-        LOG.info("routineService getSeveralRoutines 호출");
+//        LOG.info("routineService getSeveralRoutines 호출");
         return routineImpl.getSeveralRoutines(userInfo);
     }
 

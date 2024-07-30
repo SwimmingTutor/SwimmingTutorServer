@@ -35,7 +35,7 @@ public class RoutineImpl implements RoutineService {
 
     @Autowired
     public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
-        LOG.info("RoutineImpl 생성자 호출");
+//        LOG.info("RoutineImpl 생성자 호출");
         this.routineRepo = routineRepo;
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
@@ -43,7 +43,7 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 조회
     public List<ResponseRoutineDTO> getRoutines(List<Routine> routines) {
-        LOG.info("getRoutines 호출");
+//        LOG.info("getRoutines 호출");
         List<ResponseRoutineDTO> responseRoutineDTOs = new ArrayList<>();
         for (Routine routine : routines) {
             ResponseRoutineDTO responseRoutineDTO = ResponseRoutineDTO.builder()
@@ -60,10 +60,11 @@ public class RoutineImpl implements RoutineService {
         return responseRoutineDTOs;
     }
 
-    // 루틴 목록
+    // 전체 루틴 목록
+    // TODO: UserInfo 추가
     @Override
     public List<ResponseRoutineDTO> getAllRoutines() {
-        LOG.info("getAllRoutines 호출");
+//        LOG.info("getAllRoutines 호출");
         List<Routine> routines = routineRepo.findAll();
         return getRoutines(routines);
     }
@@ -71,7 +72,7 @@ public class RoutineImpl implements RoutineService {
     // 유저별 루틴 목록 조회
     @Override
     public List<ResponseRoutineDTO> getSeveralRoutines(UserInfo userInfo) {
-        LOG.info("getSeveralRoutines 호출");
+//        LOG.info("getSeveralRoutines 호출");
         List<Routine> routines = routineRepo.findByUser(userInfo);
         return getRoutines(routines);
     }
