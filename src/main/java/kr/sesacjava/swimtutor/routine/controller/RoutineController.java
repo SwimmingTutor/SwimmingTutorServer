@@ -2,8 +2,7 @@ package kr.sesacjava.swimtutor.routine.controller;
 
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
-import kr.sesacjava.swimtutor.routine.dto.TrainingForRoutineDTO;
-import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
+import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
 import kr.sesacjava.swimtutor.routine.service.NewRoutineImpl;
 import kr.sesacjava.swimtutor.routine.service.RoutineImpl;
 import kr.sesacjava.swimtutor.security.CurrentUser;
@@ -25,7 +24,7 @@ public class RoutineController {
 
     @Autowired
     public RoutineController(NewRoutineImpl newRoutineImpl, RoutineImpl routineImpl) {
-        LOG.info("RoutineController 생성자 호출");
+//        LOG.info("RoutineController 생성자 호출");
         this.newRoutineImpl = newRoutineImpl;
         this.routineImpl = routineImpl;
     }
@@ -47,18 +46,17 @@ public class RoutineController {
 
     // 루틴 상세
     @GetMapping("/{routineNo}")
-    public List<TrainingForRoutineDTO> getRoutineDetail(@CurrentUser UserInfo userInfo, @PathVariable Integer routineNo) {
+    public ResponseRoutineDetailDTO getRoutineDetail(
+            @CurrentUser UserInfo userInfo,
+            @PathVariable Integer routineNo) {
 //        LOG.info("routineDetailService getRoutineDetail 호출");
-        RoutineId routineId = new RoutineId(routineNo, userInfo.getEmail(), userInfo.getPlatform());
-        return routineImpl.getRoutineDetail(routineId);
+        return routineImpl.getRoutineDetail(userInfo, routineNo);
     }
 
     // 루틴 생성
     @PostMapping
     public void saveNewRoutine(@CurrentUser UserInfo userInfo, @RequestBody RequestRoutineDTO requestRoutineDTO) {
 //        LOG.info("routineService saveTrainingsForRoutine 호출");
-//        LOG.info("Received userInfo: {}", userInfo.toString());
-//        LOG.info("Received requestRoutineDTO: {}", requestRoutineDTO.toString());
         newRoutineImpl.saveNewRoutine(userInfo, requestRoutineDTO);
     }
 }

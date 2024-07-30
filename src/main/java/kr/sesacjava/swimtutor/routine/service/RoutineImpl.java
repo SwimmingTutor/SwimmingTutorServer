@@ -3,6 +3,7 @@ package kr.sesacjava.swimtutor.routine.service;
 import jakarta.transaction.Transactional;
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
+import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDetailDTO;
 import kr.sesacjava.swimtutor.routine.dto.TrainingForRoutineDTO;
 import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.entity.Training;
@@ -11,6 +12,7 @@ import kr.sesacjava.swimtutor.routine.entity.id.RoutineId;
 import kr.sesacjava.swimtutor.routine.repository.RoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingForRoutineRepository;
 import kr.sesacjava.swimtutor.routine.repository.TrainingRepository;
+import kr.sesacjava.swimtutor.security.CurrentUser;
 import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -69,7 +71,7 @@ public class RoutineImpl implements RoutineService {
         return getRoutines(routines);
     }
 
-    // 유저별 루틴 목록 조회
+    // 유저별 루틴 목록
     @Override
     public List<ResponseRoutineDTO> getSeveralRoutines(UserInfo userInfo) {
 //        LOG.info("getSeveralRoutines 호출");
@@ -80,14 +82,20 @@ public class RoutineImpl implements RoutineService {
     // 루틴 상세
     @Transactional
     @Override
-    public List<TrainingForRoutineDTO> getRoutineDetail(RoutineId routineId) {
+    public ResponseRoutineDetailDTO getRoutineDetail(UserInfo userInfo, Integer routineNo) {
 //        LOG.info("getRoutineDetail 호출");
         List<TrainingForRoutineDTO> trainingForRoutineDTOS = new ArrayList<>();
 
         // 루틴 정보
+        RoutineId routineId = RoutineId.builder()
+                .routineNo(routineNo)
+                .oauthLoginId(userInfo.getEmail())
+                .oauthLoginPlatform(userInfo.getPlatform())
+                .build();
         Routine routine = routineRepo.getReferenceById(routineId);
+
         // 루틴에 대한 훈련 정보
-        List<TrainingForRoutine> trainingsForRoutine = trainingForRoutineRepo.findAllByRoutineNo(routineId.getRoutineNo());
+        List<TrainingForRoutine> trainingsForRoutine = trainingForRoutineRepo.findAllByRoutineNo(userInfo, routineNo);
 
         // 루틴에 대한 훈련 정보를 DTO로 변환
         for (TrainingForRoutine trainingForRoutine : trainingsForRoutine) {
@@ -101,23 +109,26 @@ public class RoutineImpl implements RoutineService {
                     .build();
             trainingForRoutineDTOS.add(trainingForRoutineDTO);
         }
-        return trainingForRoutineDTOS;
-//        return ResponseRoutineDetailDTO.builder()
-//                .routineName(routine.getRoutineName())
-//                .targetDistance(routine.getTargetDistance())
-//                .poolLength(routine.getPoolLength())
-//                .selStrokes(routine.getSelStrokes())
-//                .created(routine.getCreated())
-//                .updated(routine.getUpdated())
-//                .trainingForRoutineDTOS(trainingForRoutineDTOS)
-//                .build();
+        ;
+
+        ResponseRoutineDetailDTO responseRoutineDetailDTO = ResponseRoutineDetailDTO.builder()
+                .routineName(routine.getRoutineName())
+                .poolLength(routine.getPoolLength())
+                .targetDistance(routine.getTargetDistance())
+                .selStrokes(routine.getSelStrokes())
+                .created(routine.getCreated())
+                .updated(routine.getUpdated())
+                .trainingData(trainingForRoutineDTOS)
+                .build();
+//        return trainingForRoutineDTOS;
+        return responseRoutineDetailDTO;
     }
 
     // 루틴 저장
     @Override
     public Routine saveRoutine(UserInfo userInfo, RequestRoutineDTO requestRoutineDTO) {
 //        LOG.info("saveRoutine 호출");
-        int lastRoutineNo = routineRepo.findMaxRoutineNo() == null ? 0 : routineRepo.findMaxRoutineNo();
+        int lastRoutineNo = routineRepo.findMaxRoutineNo(userInfo) == null ? 0 : routineRepo.findMaxRoutineNo(userInfo);
         return routineRepo.save(Routine.builder()
                 .routineNo(lastRoutineNo + 1)
                 .oauthLoginId(userInfo.getEmail())
@@ -134,8 +145,13 @@ public class RoutineImpl implements RoutineService {
 
     // 루틴 삭제
     @Override
-    public Routine deleteRoutine(RoutineId routineId) {
+    public Routine deleteRoutine(@CurrentUser UserInfo userInfo, Integer routineNo) {
 //        LOG.info("RoutineImpl - deleteRoutine 호출");
+        RoutineId routineId = RoutineId.builder()
+                .routineNo(routineNo)
+                .oauthLoginId(userInfo.getEmail())
+                .oauthLoginPlatform(userInfo.getPlatform())
+                .build();
         Routine routine = routineRepo.findById(routineId).orElse(null);
         routineRepo.deleteById(routineId);
         return routine;
