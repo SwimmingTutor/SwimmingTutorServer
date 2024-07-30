@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface LevelRepository extends JpaRepository<Level, Long> {
-    // TODO: 현재 수영 레벨을 조회하는 API 구현
+    // 현재 수영 레벨 조회
     @Query("SELECT new kr.sesacjava.swimtutor.leveltest.dto.LevelResponseDTO(l.lcTrainingName, l.userLevel) " +
             "FROM Level l WHERE l.oauthLoginId = :#{#userInfo.email} AND l.oauthLoginPlatform = :#{#userInfo.platform}")
     List<LevelResponseDTO> findCurrentLevel(@Param("userInfo") UserInfo userInfo);

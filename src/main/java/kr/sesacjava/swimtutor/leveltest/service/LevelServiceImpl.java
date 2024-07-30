@@ -24,7 +24,7 @@ public class LevelServiceImpl implements LevelService {
     private final LevelLogRepository levelLogRepository;
     private final LevelClassificationRepository levelClassificationRepository;
 
-    // TODO: 현재 수영 레벨을 조회하는 API 구현
+    // 현재 수영 레벨 조회
     @Override
     public List<LevelResponseDTO> getCurrentLevel(UserInfo userInfo) {
         List<LevelResponseDTO> list = levelRepository.findCurrentLevel(userInfo);
