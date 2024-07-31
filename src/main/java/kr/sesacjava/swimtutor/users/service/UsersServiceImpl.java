@@ -62,9 +62,28 @@ public class UsersServiceImpl implements UsersService {
         Users users = usersRepository.findById(usersId).orElseThrow();
 
         return UsersExperienceDTO.builder()
-                .oauthLoginPlatform(users.getOauthLoginPlatform())
                 .preference(users.getPreference())
                 .goal(users.getGoal())
                 .build();
+    }
+
+    @Override
+    public void updateProfile(UserInfo userInfo, UsersProfileDTO profileDTO) {
+        UsersId usersId = new UsersId(userInfo.getEmail(), userInfo.getPlatform());
+        Users user = usersRepository.findById(usersId).orElseThrow();
+
+        user.changeProfile(profileDTO);
+        
+        usersRepository.save(user);
+    }
+
+    @Override
+    public void updateExperience(UserInfo userInfo, UsersExperienceDTO experienceDTO) {
+        UsersId usersId = new UsersId(userInfo.getEmail(), userInfo.getPlatform());
+        Users user = usersRepository.findById(usersId).orElseThrow();
+
+        user.changeExperience(experienceDTO);
+
+        usersRepository.save(user);
     }
 }
