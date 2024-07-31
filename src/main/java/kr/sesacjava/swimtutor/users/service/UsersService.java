@@ -12,4 +12,8 @@ public interface UsersService {
 
     public UsersExperienceDTO findExperience(UserInfo userInfo);
 
+    public void updateExperience(UserInfo userInfo, UsersExperienceDTO experienceDTO);
+
+    public void updateProfile(UserInfo userInfo, UsersProfileDTO profileDTO);
+
 }

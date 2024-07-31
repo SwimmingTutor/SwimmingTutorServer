@@ -9,8 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UsersExperienceDTO {
-
-    private String oauthLoginPlatform;
     private String preference;
     private String goal;
 }

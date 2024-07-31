@@ -1,0 +1,36 @@
+name: Deploy to GCP on tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to GCP
+        env:
+          PRIVATE_KEY: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.GCP_HOST }}
+          USER: ${{ secrets.GCP_USER }}
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+          ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
+            cd ./app/SwimmingTutorServer &&
+            git fetch --all &&
+            git checkout main &&
+            git pull &&
+            ./gradlew clean build --exclude-task test && 
+            cd ../ &&
+            ./stop.sh && 
+            ./start.sh
+          '

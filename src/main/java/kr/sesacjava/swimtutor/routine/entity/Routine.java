@@ -44,4 +44,11 @@ public class Routine {
 
     @Column(name = "updated")
     private LocalDateTime updated;
+
+    public void change(String routineName, int poolLength, int targetDistance, String selStrokes) {
+        this.routineName = routineName;
+        this.poolLength = poolLength;
+        this.targetDistance = targetDistance;
+        this.selStrokes = selStrokes;
+    }
 }

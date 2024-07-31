@@ -10,6 +10,7 @@ import kr.sesacjava.swimtutor.users.dto.UsersProfileDTO;
 import kr.sesacjava.swimtutor.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
@@ -34,5 +35,17 @@ public class UsersController {
     @GetMapping("/experience")
     public UsersExperienceDTO getUserExperience(@CurrentUser UserInfo userInfo) {
         return usersService.findExperience(userInfo);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<Void> putUserProfile(@CurrentUser UserInfo userInfo, @RequestBody UsersProfileDTO profileDTO) {
+        usersService.updateProfile(userInfo, profileDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/experience")
+    public ResponseEntity<Void> putUserExperience(@CurrentUser UserInfo userInfo, @RequestBody UsersExperienceDTO experienceDTO) {
+        usersService.updateExperience(userInfo, experienceDTO);
+        return ResponseEntity.ok().build();
     }
 }
