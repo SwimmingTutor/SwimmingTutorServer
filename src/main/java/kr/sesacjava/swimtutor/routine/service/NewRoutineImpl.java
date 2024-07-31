@@ -166,7 +166,7 @@ public class NewRoutineImpl implements NewRoutineService {
 
         // 루틴 저장
         routineImpl.saveRoutine(userInfo, requestRoutineDTO);
-        int lastRoutineNo = routineRepo.findMaxRoutineNo() == null ? 0 : routineRepo.findMaxRoutineNo();
+        int lastRoutineNo = routineRepo.findMaxRoutineNo(userInfo) == null ? 0 : routineRepo.findMaxRoutineNo(userInfo);
         LOG.info("lastRoutineNo: {}", lastRoutineNo);
 
         Routine routine = Routine.builder()
