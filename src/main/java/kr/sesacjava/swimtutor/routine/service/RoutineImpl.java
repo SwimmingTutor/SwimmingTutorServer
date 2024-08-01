@@ -36,16 +36,15 @@ public class RoutineImpl implements RoutineService {
     private RoutineRepository routineRepo;
     private TrainingRepository trainingRepo;
     private TrainingForRoutineRepository trainingForRoutineRepo;
-
-    @Autowired
     private RoutineSequenceUpdateRepository routineSequenceUpdateRepo;
 
     @Autowired
-    public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo) {
+    public RoutineImpl(RoutineRepository routineRepo, TrainingRepository trainingRepo, TrainingForRoutineRepository trainingForRoutineRepo, RoutineSequenceUpdateRepository routineSequenceUpdateRepo) {
 //        LOG.info("RoutineImpl 생성자 호출");
         this.routineRepo = routineRepo;
         this.trainingRepo = trainingRepo;
         this.trainingForRoutineRepo = trainingForRoutineRepo;
+        this.routineSequenceUpdateRepo = routineSequenceUpdateRepo;
     }
 
     // 루틴 조회

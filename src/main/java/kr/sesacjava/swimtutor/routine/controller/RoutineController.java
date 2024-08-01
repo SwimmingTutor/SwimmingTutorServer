@@ -3,6 +3,7 @@ package kr.sesacjava.swimtutor.routine.controller;
 import kr.sesacjava.swimtutor.routine.dto.RequestRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.ResponseRoutineDTO;
 import kr.sesacjava.swimtutor.routine.dto.RoutineDetailDTO;
+import kr.sesacjava.swimtutor.routine.entity.Routine;
 import kr.sesacjava.swimtutor.routine.service.NewRoutineImpl;
 import kr.sesacjava.swimtutor.routine.service.RoutineImpl;
 import kr.sesacjava.swimtutor.security.CurrentUser;
@@ -55,9 +56,9 @@ public class RoutineController {
 
     // 루틴 생성
     @PostMapping
-    public void saveNewRoutine(@CurrentUser UserInfo userInfo, @RequestBody RequestRoutineDTO requestRoutineDTO) {
+    public List<String> saveNewRoutine(@CurrentUser UserInfo userInfo, @RequestBody RequestRoutineDTO requestRoutineDTO) {
 //        LOG.info("routineService saveTrainingsForRoutine 호출");
-        newRoutineImpl.saveNewRoutine(userInfo, requestRoutineDTO);
+        return newRoutineImpl.saveNewRoutine(userInfo, requestRoutineDTO);
     }
 
     // 루틴 수정
@@ -75,8 +76,8 @@ public class RoutineController {
 
     // 루틴 삭제
     @DeleteMapping("/{routineNo}")
-    public void deleteRoutine(@CurrentUser UserInfo userInfo, @PathVariable Integer routineNo) {
+    public Routine deleteRoutine(@CurrentUser UserInfo userInfo, @PathVariable Integer routineNo) {
 //        LOG.info("routineService deleteRoutine 호출");
-        routineImpl.deleteRoutine(userInfo, routineNo);
+        return routineImpl.deleteRoutine(userInfo, routineNo);
     }
 }
