@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class Level {
 
     @Id
-    @Column(name = "levellog_id", nullable = false)
+    @Column(name = "level_log_id", nullable = false)
     private Integer levelLogId;
 
     @Column(name = "oauth_login_id", nullable = false)
@@ -26,6 +26,12 @@ public class Level {
 
     @Column(name = "oauth_login_platform", nullable = false)
     private String oauthLoginPlatform;
+
+    @Column(name = "lc_training_name", nullable = false)
+    private String lcTrainingName;
+
+    @Column(name = "user_level", nullable = false)
+    private String userLevel;
 
     @CreatedDate
     @Column(name = "created", nullable = false, updatable = false, insertable = false, columnDefinition = "datetime default current_timestamp")

@@ -4,6 +4,7 @@ import kr.sesacjava.swimtutor.common.util.JWTUtil;
 import kr.sesacjava.swimtutor.security.filter.RefreshTokenFilter;
 import kr.sesacjava.swimtutor.security.filter.TokenCheckFilter;
 import kr.sesacjava.swimtutor.security.handler.CustomSocialLoginSuccessHandler;
+import kr.sesacjava.swimtutor.users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JWTUtil jwtUtil;
+    private final UsersRepository usersRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -74,7 +76,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomSocialLoginSuccessHandler(jwtUtil);
+        return new CustomSocialLoginSuccessHandler(jwtUtil, usersRepository);
     }
 
     @Bean

@@ -2,6 +2,8 @@ package kr.sesacjava.swimtutor.users.entity;
 
 import jakarta.persistence.*;
 import kr.sesacjava.swimtutor.common.entity.BaseEntity;
+import kr.sesacjava.swimtutor.users.dto.UsersExperienceDTO;
+import kr.sesacjava.swimtutor.users.dto.UsersProfileDTO;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -49,4 +51,17 @@ public class Users extends BaseEntity {
     @Column(name = "goal")
     private String goal;
 
+
+    public void changeExperience(UsersExperienceDTO dto) {
+        this.preference = dto.getPreference();
+        this.goal = dto.getGoal();
+    }
+
+    public void changeProfile(UsersProfileDTO dto) {
+        this.name = dto.getName();
+        this.gender = dto.getGender();
+        this.birth = dto.getBirth();
+        this.weight = dto.getWeight();
+        this.height = dto.getHeight();
+    }
 }

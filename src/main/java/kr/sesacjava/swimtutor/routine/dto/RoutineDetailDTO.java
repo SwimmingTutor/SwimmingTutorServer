@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ResponseRoutineDetailDTO {
+public class RoutineDetailDTO {
     // Routine
     private String routineName;
     private Integer poolLength;
@@ -25,5 +25,5 @@ public class ResponseRoutineDetailDTO {
     // ResponseTrainingForRoutine
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "routine_no")
-    private List<ResponseTrainingForRoutineDTO> responseTrainingForRoutineDTOS;
+    private List<TrainingForRoutineDTO> trainingData;
 }
