@@ -3,6 +3,8 @@ package kr.sesacjava.swimtutor.record.controller;
 import kr.sesacjava.swimtutor.record.dto.ExerciseRecordDTO;
 import kr.sesacjava.swimtutor.record.dto.RecordDataDTO;
 import kr.sesacjava.swimtutor.record.service.ExerciseRecordService;
+import kr.sesacjava.swimtutor.security.CurrentUser;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +20,15 @@ public class ExerciseRecordController {
     private final ExerciseRecordService exerciseRecordService;
 
     @PostMapping("/")
-    public void postExerciseRecord(@RequestBody RecordDataDTO dataDTO) {
-        log.info("register");
-        exerciseRecordService.register(dataDTO.getData());
+    public void postExerciseRecord(@CurrentUser UserInfo userInfo, @RequestBody RecordDataDTO dataDTO) {
+        exerciseRecordService.register(userInfo, dataDTO.getData());
     }
 
-//    @PostMapping("/")
-//    public void postExerciseRecord(@RequestBody ExerciseRecordDTO exerciseRecordDTO) {
-//        log.info("register");
-//        exerciseRecordService.register(exerciseRecordDTO);
-//    }
+    @PostMapping("/test")
+    public void postExerciseRecord(@RequestBody RecordDataDTO dataDTO) {
+        UserInfo userInfo = new UserInfo("test01@gmail.com", "google");
+        exerciseRecordService.register(userInfo, dataDTO.getData());
+    }
 
     @GetMapping("/")
     public List<ExerciseRecordDTO> getExerciseRecord() {
@@ -39,9 +40,4 @@ public class ExerciseRecordController {
     public LocalDateTime getLastRecordTime() {
         return exerciseRecordService.lastRecordTime();
     }
-
-//    @GetMapping("/")
-//    public LocalDateTime getLastExerciseTime() {
-//
-//    }
 }

@@ -6,6 +6,7 @@ import kr.sesacjava.swimtutor.record.entity.RecordTime;
 import kr.sesacjava.swimtutor.record.entity.RecordTimeId;
 import kr.sesacjava.swimtutor.record.repository.ExerciseRecordRepository;
 import kr.sesacjava.swimtutor.record.repository.RecordTimeRepository;
+import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,11 @@ public class ExerciseRecordServiceImpl implements ExerciseRecordService {
     private final RecordTimeRepository recordTimeRepository;
 
     @Override
-    public void register(List<ExerciseRecordDTO> dataDTO) {
+    public void register(UserInfo userInfo, List<ExerciseRecordDTO> dataDTO) {
         List<ExerciseRecord> list = dataDTO.stream().map(data ->
                 ExerciseRecord.builder()
-                        .oauthLoginId("")
-                        .oauthLoginPlatform("google")
+                        .oauthLoginId(userInfo.getEmail())
+                        .oauthLoginPlatform(userInfo.getPlatform())
                         .category(data.getCategory())
                         .value(data.getValue())
                         .startTime(data.getStartTime())

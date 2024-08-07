@@ -26,6 +26,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TokenCheckFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
+    private final String passPath;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -33,6 +34,12 @@ public class TokenCheckFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         log.info("Token Check Filter...");
         log.info("JWTUtil" + jwtUtil);
+
+        var path = request.getRequestURI();
+        if (path.equals(passPath)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         try {
             Map<String, Object> claim = validateAccessToken(request);
