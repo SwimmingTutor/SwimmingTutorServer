@@ -1,5 +1,7 @@
-*.properties
-#!application.properties
+**/*security*
+**/__pycache__
+**/.pyenv
+
 !**/src/main/**/common/
 !**/src/main/**/routine/
 !**/src/main/**/users/
