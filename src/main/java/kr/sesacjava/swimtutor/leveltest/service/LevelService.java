@@ -1,5 +1,6 @@
 package kr.sesacjava.swimtutor.leveltest.service;
 
+import kr.sesacjava.swimtutor.leveltest.dto.LevelDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.entity.LevelLog;
@@ -8,7 +9,11 @@ import kr.sesacjava.swimtutor.security.dto.UserInfo;
 import java.util.List;
 
 public interface LevelService {
-    public void registerLevelLog(UserInfo userInfo, LevelLogDTO levelLogDTO);
+
+    //
+    public void registerLevelLog(UserInfo userInfo, LevelDTO levelDTO);
+
+//    public void registerLevelLog(UserInfo userInfo, LevelLogDTO levelLogDTO);
 
     // 현재 수영 레벨 조회
     public List<LevelResponseDTO> getCurrentLevel(UserInfo userInfo);

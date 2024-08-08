@@ -1,5 +1,6 @@
 package kr.sesacjava.swimtutor.leveltest.controller;
 
+import kr.sesacjava.swimtutor.leveltest.dto.LevelDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.service.LevelService;
@@ -25,8 +26,8 @@ public class LevelController {
     }
 
     @PostMapping("/log")
-    public void createLevelLog(@CurrentUser UserInfo userInfo, @RequestBody LevelLogDTO levelLogDTO) {
-        levelService.registerLevelLog(userInfo, levelLogDTO);
+    public void createLevelLog(@CurrentUser UserInfo userInfo, @RequestBody LevelDTO levelDTO) {
+        levelService.registerLevelLog(userInfo, levelDTO);
     }
 
     @GetMapping("/log")

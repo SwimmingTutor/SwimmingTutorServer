@@ -1,6 +1,7 @@
 package kr.sesacjava.swimtutor.leveltest.service;
 
 import kr.sesacjava.swimtutor.common.exception.NotFoundException;
+import kr.sesacjava.swimtutor.leveltest.dto.LevelDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelLogDTO;
 import kr.sesacjava.swimtutor.leveltest.dto.LevelResponseDTO;
 import kr.sesacjava.swimtutor.leveltest.entity.LevelLog;
@@ -28,15 +29,26 @@ public class LevelServiceImpl implements LevelService {
     @Override
     public List<LevelResponseDTO> getCurrentLevel(UserInfo userInfo) {
         List<LevelResponseDTO> list = levelRepository.findCurrentLevel(userInfo);
-        System.out.println(list);
+//        System.out.println(list);
         return list;
     }
 
     @Override
-    public void registerLevelLog(UserInfo userInfo, LevelLogDTO levelLogDTO) {
-        LevelLog levelLog = levelLogDtoToEntity(userInfo, levelLogDTO, userLevel(levelLogDTO));
-        levelLogRepository.save(levelLog);
+    public void registerLevelLog(UserInfo userInfo, LevelDTO levelDTO) {
+        LevelLog levelLog = LevelLog.builder()
+                .lcTrainingName(levelDTO.getStyle())
+                .userLevel(levelDTO.getLevel())
+                .oauthLoginId(userInfo.getEmail())
+                .oauthLoginPlatform(userInfo.getPlatform())
+                .build();
+        levelLogRepository.saveAndFlush(levelLog);
     }
+
+//    @Override
+//    public void registerLevelLog(UserInfo userInfo, LevelLogDTO levelLogDTO) {
+//        LevelLog levelLog = levelLogDtoToEntity(userInfo, levelLogDTO, userLevel(levelLogDTO));
+//        levelLogRepository.save(levelLog);
+//    }
 
 
     @Override
