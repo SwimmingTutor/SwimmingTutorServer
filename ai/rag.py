@@ -157,12 +157,4 @@ async def create_item(item: Query):
         "speed": item.speed,
         "technique": item.technique
     })
-
     return {"completion": response}
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8000)
-    # uvicorn.run(app, host="52.195.187.190", port=8000)
