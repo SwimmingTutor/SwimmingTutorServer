@@ -1,6 +1,5 @@
 **/*security*
 **/__pycache__
-**/.pyenv
 
 !**/src/main/**/common/
 !**/src/main/**/routine/
