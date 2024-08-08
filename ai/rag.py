@@ -141,7 +141,7 @@ def get_llm_chain():
 app = FastAPI()
 
 
-@app.post("/prompt/")
+@app.post("/lvtest")
 async def create_item(item: Query):
     secrets = load_secrets()
     os.environ['OPENAI_API_KEY'] = secrets['OPENAI_API_KEY']
